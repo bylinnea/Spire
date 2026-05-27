@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:gravity="center">
+
+    <TextView
+        android:id="@+id/qrPlantName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textColor="#2A4A2A"
+        android:fontFamily="sans-serif-light"
+        android:layout_marginBottom="4dp" />
+
+    <TextView
+        android:id="@+id/qrSubtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Plant info only"
+        android:textSize="12sp"
+        android:textColor="#6B8F6B"
+        android:fontFamily="sans-serif-light"
+        android:layout_marginBottom="20dp" />
+
+    <ImageView
+        android:id="@+id/qrImage"
+        android:layout_width="220dp"
+        android:layout_height="220dp"
+        android:scaleType="fitCenter"
+        android:contentDescription="QR code" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Includes care schedule and history"
+        android:textSize="11sp"
+        android:textColor="#A8BFA8"
+        android:fontFamily="sans-serif-light"
+        android:layout_marginTop="16dp" />
+
+</LinearLayout>

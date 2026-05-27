@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:paddingHorizontal="24dp"
+    android:paddingTop="20dp"
+    android:paddingBottom="8dp">
+
+    <TextView
+        android:id="@+id/headerRoomName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textSize="11sp"
+        android:textColor="@color/green_muted"
+        android:fontFamily="sans-serif"
+        android:letterSpacing="0.16"
+        android:textAllCaps="true" />
+
+    <TextView
+        android:id="@+id/headerPlantCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="11sp"
+        android:textColor="@color/text_hint"
+        android:fontFamily="sans-serif-light"
+        android:layout_marginEnd="12dp" />
+
+    <TextView
+        android:id="@+id/headerWaterAll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="💧 water all"
+        android:textSize="11sp"
+        android:textColor="@color/green_forest"
+        android:fontFamily="sans-serif-medium"
+        android:letterSpacing="0.04"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="4dp"
+        android:background="@drawable/pill_unselected"
+        android:visibility="gone" />
+
+</LinearLayout>

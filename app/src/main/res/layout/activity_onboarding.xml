@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_cream">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="28dp"
+        android:paddingTop="72dp"
+        android:paddingBottom="40dp"
+        android:gravity="center_horizontal">
+
+        <!-- Icon -->
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="🌿" android:textSize="64sp" android:layout_marginBottom="24dp" />
+
+        <!-- Title -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:fontFamily="sans-serif-light"
+            android:gravity="center"
+            android:letterSpacing="0.02"
+            android:text="Welcome to Spire"
+            android:textColor="@color/green_deep"
+            android:textSize="26sp" />
+
+        <!-- Divider -->
+        <View android:layout_width="40dp" android:layout_height="1dp"
+            android:background="@color/green_sage" android:layout_marginBottom="20dp" />
+
+        <!-- Description -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:fontFamily="sans-serif-light"
+            android:gravity="center"
+            android:lineSpacingMultiplier="1.5"
+            android:text="Spire helps you remember to water your plants and tracks their care history."
+            android:textColor="@color/text_secondary"
+            android:textSize="15sp" />
+
+        <!-- AI features card -->
+        <androidx.cardview.widget.CardView android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:layout_marginBottom="20dp"
+            app:cardCornerRadius="18dp" app:cardElevation="1dp"
+            app:cardBackgroundColor="@color/bg_card">
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="vertical" android:padding="20dp">
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="optional · ai features"
+                    android:textSize="10sp" android:textColor="@color/green_muted"
+                    android:fontFamily="sans-serif" android:letterSpacing="0.14"
+                    android:textAllCaps="true" android:layout_marginBottom="10dp" />
+
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:text="Point your camera at any plant and the app will identify it and automatically suggest a watering schedule, sunlight needs, and care tips."
+                    android:textSize="14sp" android:textColor="@color/text_secondary"
+                    android:fontFamily="sans-serif-light" android:lineSpacingMultiplier="1.5"
+                    android:layout_marginBottom="16dp" />
+
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:text="This uses the PlantNet API (free) for plant identification and Claude AI for care recommendations (less than €0.01 per lookup). You'll need API keys from each service."
+                    android:textSize="13sp" android:textColor="@color/text_hint"
+                    android:fontFamily="sans-serif-light" android:lineSpacingMultiplier="1.5"
+                    android:layout_marginBottom="16dp" />
+
+                <!-- Expand to show key inputs -->
+                <TextView android:id="@+id/btnShowKeys"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:text="set up AI features →"
+                    android:textSize="13sp" android:textColor="@color/green_forest"
+                    android:fontFamily="sans-serif-medium" android:letterSpacing="0.04"
+                    android:gravity="center" android:paddingVertical="10dp"
+                    android:background="@drawable/btn_outline_green" />
+
+                <!-- Key input section, hidden by default -->
+                <LinearLayout android:id="@+id/keysSection"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="vertical" android:visibility="gone"
+                    android:layout_marginTop="4dp">
+
+                    <!-- Divider -->
+                    <View android:layout_width="match_parent" android:layout_height="1dp"
+                        android:background="@color/green_pale" android:layout_marginVertical="16dp" />
+
+                    <!-- Anthropic key -->
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="anthropic key  ·  required"
+                        android:textSize="10sp" android:textColor="@color/green_muted"
+                        android:fontFamily="sans-serif" android:letterSpacing="0.12"
+                        android:textAllCaps="true" android:layout_marginBottom="6dp" />
+
+                    <EditText android:id="@+id/inputAnthropicKey"
+                        android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:layout_marginBottom="4dp"
+                        android:hint="sk-ant-..." android:textColorHint="@color/text_hint"
+                        android:textColor="@color/text_primary" android:textSize="13sp"
+                        android:fontFamily="monospace" android:inputType="textPassword"
+                        android:importantForAutofill="no"
+                        android:background="@drawable/input_underline" android:paddingBottom="8dp" />
+
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="Get a key at console.anthropic.com"
+                        android:textSize="11sp" android:textColor="@color/text_hint"
+                        android:fontFamily="sans-serif-light" android:layout_marginBottom="20dp" />
+
+                    <!-- PlantNet key -->
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="plantnet key  ·  optional"
+                        android:textSize="10sp" android:textColor="@color/green_muted"
+                        android:fontFamily="sans-serif" android:letterSpacing="0.12"
+                        android:textAllCaps="true" android:layout_marginBottom="6dp" />
+
+                    <EditText android:id="@+id/inputPlantNetKey"
+                        android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:layout_marginBottom="4dp"
+                        android:hint="2b10..." android:textColorHint="@color/text_hint"
+                        android:textColor="@color/text_primary" android:textSize="13sp"
+                        android:fontFamily="monospace" android:inputType="textPassword"
+                        android:importantForAutofill="no"
+                        android:background="@drawable/input_underline" android:paddingBottom="8dp" />
+
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="Get a free key at my.plantnet.org - needed for photo identification. Without it, Claude will try to identify the plant from the photo directly."
+                        android:textSize="11sp" android:textColor="@color/text_hint"
+                        android:fontFamily="sans-serif-light" android:lineSpacingMultiplier="1.4"
+                        android:layout_marginBottom="20dp" />
+
+                    <!-- Status -->
+                    <TextView android:id="@+id/statusText"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="" android:textSize="12sp"
+                        android:fontFamily="sans-serif-light" android:layout_marginBottom="16dp" />
+
+                    <!-- Enable button -->
+                    <TextView android:id="@+id/btnEnableAi"
+                        android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:text="enable AI features"
+                        android:textSize="14sp" android:textColor="#FFFFFF"
+                        android:fontFamily="sans-serif-medium" android:letterSpacing="0.06"
+                        android:gravity="center" android:paddingVertical="14dp"
+                        android:background="@drawable/btn_filled_green" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Skip button -->
+        <TextView android:id="@+id/btnSkip"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="skip for now, just track my plants"
+            android:textSize="13sp" android:textColor="@color/text_hint"
+            android:fontFamily="sans-serif-light" android:letterSpacing="0.02"
+            android:paddingVertical="12dp" />
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="You can always enable AI features later in Settings."
+            android:textSize="11sp" android:textColor="@color/text_hint"
+            android:fontFamily="sans-serif-light" android:gravity="center" />
+
+    </LinearLayout>
+</ScrollView>

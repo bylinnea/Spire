@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" android:required="false"/>
+    <application android:allowBackup="true" android:label="Spire" android:icon="@mipmap/ic_launcher" android:roundIcon="@mipmap/ic_launcher_round" android:theme="@style/PlantMomTheme" android:supportsRtl="true" android:networkSecurityConfig="@xml/network_security_config">
+        <activity android:name="no.bylinnea.spire.ui.SplashActivity" android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity android:name="no.bylinnea.spire.ui.OnboardingActivity" android:exported="false"/>
+        <activity android:name="no.bylinnea.spire.ui.MainActivity" android:exported="false"/>
+        <activity android:name="no.bylinnea.spire.ui.AddPlantActivity"/>
+        <activity android:name="no.bylinnea.spire.ui.EditPlantActivity"/>
+        <activity android:name="no.bylinnea.spire.ui.PlantDetailActivity"/>
+        <activity android:name="no.bylinnea.spire.ui.SettingsActivity"/>
+        <activity android:name="com.yalantis.ucrop.UCropActivity" android:screenOrientation="portrait" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name="no.bylinnea.spire.ui.CareDetailActivity" android:exported="false" />
+        <activity android:name="no.bylinnea.spire.ui.GraveyardActivity" android:exported="false" android:noHistory="true" />
+        <receiver android:name="no.bylinnea.spire.service.SpireWidget" android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_plant_mom_info"/>
+        </receiver>
+        <provider android:name="androidx.core.content.FileProvider" android:authorities="${applicationId}.fileprovider" android:exported="false" android:grantUriPermissions="true">
+            <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/file_paths"/>
+        </provider>
+    </application>
+
+</manifest>

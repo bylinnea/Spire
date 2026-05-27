@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/bg_cream">
+
+    <!-- Header -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="24dp"
+        android:paddingTop="52dp"
+        android:paddingBottom="0dp"
+        android:background="@color/bg_cream">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:letterSpacing="0.16"
+            android:text="Spire"
+            android:textAllCaps="true"
+            android:textColor="@color/green_muted"
+            android:textSize="11sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="2dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Graveyard"
+                android:textSize="32sp"
+                android:textColor="@color/green_deep"
+                android:fontFamily="sans-serif-light"
+                android:letterSpacing="0.02" />
+
+            <TextView
+                android:id="@+id/btnBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="← back"
+                android:textSize="13sp"
+                android:textColor="@color/green_muted"
+                android:fontFamily="sans-serif"
+                android:paddingStart="12dp"
+                android:paddingBottom="4dp"
+                android:contentDescription="Back" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="16dp"
+            android:text="swipe right to restore  ·  swipe left to delete forever"
+            android:textSize="11sp"
+            android:textColor="@color/text_hint"
+            android:fontFamily="sans-serif"
+            android:letterSpacing="0.04" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/green_pale" />
+
+    </LinearLayout>
+
+    <!-- List -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/graveyardRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="8dp"
+            android:paddingBottom="32dp"
+            android:clipToPadding="false"
+            android:background="@color/bg_cream" />
+
+        <!-- Empty state -->
+        <LinearLayout
+            android:id="@+id/graveyardEmpty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="✝"
+                android:textSize="48sp"
+                android:textColor="@color/green_pale"
+                android:layout_marginBottom="12dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No plants here"
+                android:textSize="17sp"
+                android:textColor="@color/text_primary"
+                android:fontFamily="sans-serif-light"
+                android:layout_marginBottom="4dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="long may your plants live 🌱"
+                android:textSize="13sp"
+                android:textColor="@color/text_secondary"
+                android:fontFamily="sans-serif-light"
+                android:letterSpacing="0.04" />
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+</LinearLayout>

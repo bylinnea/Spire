@@ -1,0 +1,936 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+<ScrollView
+    android:id="@+id/detailScrollView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_cream">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="60dp">
+
+        <!-- Header -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal" android:paddingHorizontal="20dp"
+            android:paddingTop="52dp" android:paddingBottom="12dp" android:gravity="center_vertical">
+
+            <TextView android:id="@+id/btnBack" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:text="← back"
+                android:textSize="13sp" android:textColor="@color/green_muted"
+                android:fontFamily="sans-serif-light" android:letterSpacing="0.04" />
+
+            <View android:layout_width="0dp" android:layout_height="1dp" android:layout_weight="1" />
+
+            <TextView android:id="@+id/plantIndicator" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:text=""
+                android:textSize="11sp" android:textColor="@color/text_hint"
+                android:fontFamily="sans-serif-light" android:letterSpacing="0.06"
+                android:layout_marginEnd="14dp" android:visibility="gone" />
+
+            <TextView android:id="@+id/btnShare" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:text="share"
+                android:textSize="13sp" android:textColor="@color/green_forest"
+                android:fontFamily="sans-serif-medium" android:letterSpacing="0.04"
+                android:paddingHorizontal="12dp" android:paddingVertical="6dp"
+                android:background="@drawable/btn_outline_green" android:layout_marginEnd="10dp" />
+
+            <TextView android:id="@+id/btnEdit" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:text="edit"
+                android:textSize="13sp" android:textColor="@color/green_forest"
+                android:fontFamily="sans-serif-medium" android:letterSpacing="0.04"
+                android:paddingHorizontal="12dp" android:paddingVertical="6dp"
+                android:background="@drawable/btn_outline_green" android:layout_marginEnd="10dp" />
+            <TextView
+                android:id="@+id/btnMarkDead" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:text="✝"
+                android:textSize="16sp" android:textColor="@color/green_muted"
+                android:paddingHorizontal="12dp" android:paddingVertical="6dp"
+                android:contentDescription="Mark as dead" />
+
+            <TextView android:id="@+id/btnDelete" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:text="delete"
+                android:textSize="13sp" android:textColor="@color/status_overdue_dot"
+                android:fontFamily="sans-serif-medium" android:letterSpacing="0.04"
+                android:paddingHorizontal="12dp" android:paddingVertical="6dp"
+                android:background="@drawable/btn_outline_terracotta" />
+
+        </LinearLayout>
+
+        <!-- Swipe hint -->
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="↑ ↓ swipe between plants  ·  swipe → to go back"
+            android:textSize="10sp" android:textColor="@color/text_hint"
+            android:fontFamily="sans-serif-light" android:letterSpacing="0.04"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Photo / emoji -->
+        <FrameLayout android:layout_width="140dp" android:layout_height="140dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="8dp" android:layout_marginBottom="20dp">
+
+            <ImageView android:id="@+id/detailPhoto" android:layout_width="140dp"
+                android:layout_height="140dp" android:scaleType="centerCrop"
+                android:visibility="gone" android:contentDescription="Plant photo" />
+
+            <TextView android:id="@+id/detailEmoji" android:layout_width="140dp"
+                android:layout_height="140dp" android:gravity="center"
+                android:text="🌿" android:textSize="72sp"
+                android:background="@drawable/circle_bg_sage" />
+
+        </FrameLayout>
+
+        <!-- Name -->
+        <TextView android:id="@+id/detailName" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:layout_gravity="center_horizontal"
+            android:text="Plant Name" android:textSize="28sp" android:textColor="@color/green_deep"
+            android:fontFamily="sans-serif-light" android:letterSpacing="0.02"
+            android:layout_marginBottom="4dp" />
+
+        <TextView android:id="@+id/detailSchedule" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:layout_gravity="center_horizontal"
+            android:textSize="13sp" android:textColor="@color/text_secondary"
+            android:fontFamily="sans-serif-light" android:layout_marginBottom="24dp" />
+
+        <!-- Pet safe badge -->
+        <TextView
+            android:id="@+id/badgePetSafe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="🐾 pet safe"
+            android:textSize="11sp"
+            android:textColor="#5A8A5A"
+            android:fontFamily="sans-serif-medium"
+            android:letterSpacing="0.06"
+            android:paddingHorizontal="14dp"
+            android:paddingVertical="5dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/pill_unselected"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/badgeToxic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="⚠️ toxic to pets"
+            android:textSize="11sp"
+            android:textColor="@color/status_overdue_dot"
+            android:fontFamily="sans-serif-medium"
+            android:letterSpacing="0.06"
+            android:paddingHorizontal="14dp"
+            android:paddingVertical="5dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/btn_outline_terracotta"
+            android:visibility="gone" />
+
+        <!-- Care tasks card -->
+        <androidx.cardview.widget.CardView android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="12dp"
+            app:cardCornerRadius="18dp" app:cardElevation="1dp"
+            app:cardBackgroundColor="@color/bg_card">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="20dp"
+                android:paddingHorizontal="20dp"
+                android:paddingBottom="24dp">
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="care schedule"
+                    android:textSize="10sp" android:textColor="@color/green_muted"
+                    android:fontFamily="sans-serif" android:letterSpacing="0.14"
+                    android:textAllCaps="true" android:layout_marginBottom="8dp" />
+
+                <LinearLayout android:id="@+id/careTasksContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:divider="@drawable/divider_line"
+                    android:showDividers="middle" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <!-- Fertilizer type card -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/fertilizerTypeCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="12dp"
+            android:visibility="gone"
+            app:cardCornerRadius="18dp"
+            app:cardElevation="1dp"
+            app:cardBackgroundColor="@color/bg_card">
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="vertical" android:padding="20dp">
+
+                <LinearLayout android:id="@+id/rowFertilizerType"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="recommended fertilizer"
+                        android:textSize="10sp" android:textColor="@color/green_muted"
+                        android:fontFamily="sans-serif" android:letterSpacing="0.14"
+                        android:textAllCaps="true" android:layout_marginBottom="3dp" />
+
+                    <TextView android:id="@+id/detailFertilizerType"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:textSize="15sp" android:textColor="@color/text_primary"
+                        android:fontFamily="sans-serif-light" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Plant info card -->
+        <androidx.cardview.widget.CardView android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="12dp"
+            app:cardCornerRadius="18dp" app:cardElevation="1dp"
+            app:cardBackgroundColor="@color/bg_card">
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="vertical" android:padding="20dp">
+
+                <LinearLayout android:id="@+id/rowSpecies" android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:orientation="vertical"
+                    android:layout_marginBottom="16dp" android:visibility="gone">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="species" android:textSize="10sp" android:textColor="@color/green_muted"
+                        android:fontFamily="sans-serif" android:letterSpacing="0.14" android:textAllCaps="true"
+                        android:layout_marginBottom="3dp" />
+                    <TextView android:id="@+id/detailSpecies" android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:textSize="15sp"
+                        android:textColor="@color/text_primary" android:fontFamily="sans-serif-light" />
+                </LinearLayout>
+
+                <LinearLayout android:id="@+id/rowLocation" android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:orientation="vertical"
+                    android:layout_marginBottom="16dp" android:visibility="gone">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="location" android:textSize="10sp" android:textColor="@color/green_muted"
+                        android:fontFamily="sans-serif" android:letterSpacing="0.14" android:textAllCaps="true"
+                        android:layout_marginBottom="3dp" />
+                    <TextView android:id="@+id/detailLocation" android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:textSize="15sp"
+                        android:textColor="@color/text_primary" android:fontFamily="sans-serif-light" />
+                </LinearLayout>
+
+                <LinearLayout android:id="@+id/rowDateAcquired" android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:orientation="vertical"
+                    android:layout_marginBottom="16dp" android:visibility="gone">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="acquired" android:textSize="10sp" android:textColor="@color/green_muted"
+                        android:fontFamily="sans-serif" android:letterSpacing="0.14" android:textAllCaps="true"
+                        android:layout_marginBottom="3dp" />
+                    <TextView android:id="@+id/detailDateAcquired" android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:textSize="15sp"
+                        android:textColor="@color/text_primary" android:fontFamily="sans-serif-light" />
+                </LinearLayout>
+
+                <LinearLayout android:id="@+id/rowNotes" android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:orientation="vertical"
+                    android:visibility="gone">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="notes" android:textSize="10sp" android:textColor="@color/green_muted"
+                        android:fontFamily="sans-serif" android:letterSpacing="0.14" android:textAllCaps="true"
+                        android:layout_marginBottom="3dp" />
+                    <TextView android:id="@+id/detailNotes" android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:textSize="15sp"
+                        android:textColor="@color/text_primary" android:fontFamily="sans-serif-light"
+                        android:lineSpacingMultiplier="1.4" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+        <!-- Environment card -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/lightMeterCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            app:cardCornerRadius="18dp"
+            app:cardElevation="1dp"
+            app:cardBackgroundColor="@color/bg_card">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <!-- Header -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="️environment"
+                    android:textSize="10sp"
+                    android:textColor="@color/green_muted"
+                    android:fontFamily="sans-serif"
+                    android:letterSpacing="0.14"
+                    android:textAllCaps="true"
+                    android:layout_marginBottom="14dp" />
+
+                <!-- Light preference -->
+                <LinearLayout
+                    android:id="@+id/rowLightPreference"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="10dp"
+                    android:visibility="gone">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="☀️ light"
+                        android:textSize="13sp"
+                        android:textColor="@color/text_hint"
+                        android:fontFamily="sans-serif-light" />
+                    <TextView
+                        android:id="@+id/detailLightPreference"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="15sp"
+                        android:textColor="@color/text_primary"
+                        android:fontFamily="sans-serif-medium" />
+                </LinearLayout>
+
+                <!-- Temperature preference -->
+                <LinearLayout
+                    android:id="@+id/rowTemperaturePreference"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="14dp"
+                    android:visibility="gone">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="🌡️ temperature"
+                        android:textSize="13sp"
+                        android:textColor="@color/text_hint"
+                        android:fontFamily="sans-serif-light"
+                        android:layout_marginEnd="8dp" />
+                    <TextView
+                        android:id="@+id/detailTemperaturePreference"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="15sp"
+                        android:textColor="@color/text_primary"
+                        android:fontFamily="sans-serif-medium"
+                        android:gravity="end"
+                        android:lineSpacingMultiplier="1.3" />
+                </LinearLayout>
+
+                <!-- How to use tip -->
+                <TextView
+                    android:id="@+id/lightMeterTip"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Hold your phone face-up where the plant sits, away from shadows. Move slowly to different spots to see how light varies."
+                    android:textSize="12sp"
+                    android:textColor="@color/text_hint"
+                    android:fontFamily="sans-serif-light"
+                    android:lineSpacingMultiplier="1.4"
+                    android:layout_marginBottom="14dp" />
+
+                <!-- Measure button -->
+                <TextView
+                    android:id="@+id/btnMeasureLight"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="start measuring light"
+                    android:textSize="13sp"
+                    android:textColor="@color/green_forest"
+                    android:fontFamily="sans-serif-medium"
+                    android:letterSpacing="0.04"
+                    android:gravity="center"
+                    android:paddingVertical="12dp"
+                    android:background="@drawable/btn_outline_green"
+                    android:layout_marginBottom="14dp" />
+
+                <!-- Live reading -->
+                <LinearLayout
+                    android:id="@+id/lightReadingContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="8dp">
+                        <TextView
+                            android:id="@+id/lightLuxValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="28sp"
+                            android:textColor="@color/green_deep"
+                            android:fontFamily="sans-serif-light"
+                            android:layout_marginEnd="10dp" />
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+                            <TextView
+                                android:id="@+id/lightLabel"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="14sp"
+                                android:textColor="@color/text_primary"
+                                android:fontFamily="sans-serif-medium" />
+                            <TextView
+                                android:id="@+id/lightFcValue"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="11sp"
+                                android:textColor="@color/text_hint"
+                                android:fontFamily="sans-serif-light" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/lightMatchIndicator"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="13sp"
+                        android:fontFamily="sans-serif-light"
+                        android:lineSpacingMultiplier="1.4"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/btnStopLight"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="stop measuring"
+                        android:textSize="13sp"
+                        android:textColor="@color/text_hint"
+                        android:fontFamily="sans-serif-medium"
+                        android:letterSpacing="0.04"
+                        android:gravity="center"
+                        android:paddingVertical="12dp"
+                        android:layout_marginTop="12dp"
+                        android:background="@drawable/btn_outline_green" />
+
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+        <!-- Growth photos card -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/growthPhotosCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            app:cardCornerRadius="18dp"
+            app:cardElevation="1dp"
+            app:cardBackgroundColor="@color/bg_card">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <!-- Header row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="14dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="growth photos"
+                        android:textSize="10sp"
+                        android:textColor="@color/green_muted"
+                        android:fontFamily="sans-serif"
+                        android:letterSpacing="0.14"
+                        android:textAllCaps="true" />
+
+                    <TextView
+                        android:id="@+id/btnAddGrowthPhoto"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="+ add photo"
+                        android:textSize="12sp"
+                        android:textColor="@color/green_forest"
+                        android:fontFamily="sans-serif-medium"
+                        android:letterSpacing="0.04"
+                        android:paddingHorizontal="12dp"
+                        android:paddingVertical="5dp"
+                        android:background="@drawable/btn_outline_green" />
+
+                </LinearLayout>
+
+                <!-- Horizontal photo timeline -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/growthPhotosRecycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:orientation="horizontal"
+                    android:nestedScrollingEnabled="false"
+                    android:visibility="gone" />
+
+                <!-- Empty state -->
+                <TextView
+                    android:id="@+id/growthPhotosEmpty"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No growth photos yet. Add your first one to start tracking progress!"
+                    android:textSize="13sp"
+                    android:textColor="@color/text_hint"
+                    android:fontFamily="sans-serif-light"
+                    android:lineSpacingMultiplier="1.4" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+        <!-- AI Plant Doctor card, only shown when AI is enabled -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/doctorCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            android:visibility="gone"
+            app:cardCornerRadius="18dp"
+            app:cardElevation="1dp"
+            app:cardBackgroundColor="@color/bg_card">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ai plant doctor"
+                    android:textSize="10sp"
+                    android:textColor="@color/green_muted"
+                    android:fontFamily="sans-serif"
+                    android:letterSpacing="0.14"
+                    android:textAllCaps="true"
+                    android:layout_marginBottom="12dp" />
+
+                <!-- Photo picker row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="12dp">
+
+                    <ImageView
+                        android:id="@+id/doctorPhotoPreview"
+                        android:layout_width="52dp"
+                        android:layout_height="52dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic_camera"
+                        android:layout_marginEnd="14dp"
+                        android:contentDescription="Diagnosis photo" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Take a photo of your plant"
+                            android:textSize="13sp"
+                            android:textColor="@color/text_primary"
+                            android:fontFamily="sans-serif-light"
+                            android:layout_marginBottom="8dp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/btnDoctorCamera"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_marginEnd="8dp"
+                                android:text="camera"
+                                android:textSize="12sp"
+                                android:textColor="@color/green_forest"
+                                android:fontFamily="sans-serif-medium"
+                                android:letterSpacing="0.04"
+                                android:gravity="center"
+                                android:paddingVertical="8dp"
+                                android:background="@drawable/btn_outline_green" />
+
+                            <TextView
+                                android:id="@+id/btnDoctorGallery"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="gallery"
+                                android:textSize="12sp"
+                                android:textColor="@color/green_forest"
+                                android:fontFamily="sans-serif-medium"
+                                android:letterSpacing="0.04"
+                                android:gravity="center"
+                                android:paddingVertical="8dp"
+                                android:background="@drawable/btn_outline_green" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- Diagnose button -->
+                <TextView
+                    android:id="@+id/btnDiagnose"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="diagnose plant"
+                    android:textSize="13sp"
+                    android:textColor="#FFFFFF"
+                    android:fontFamily="sans-serif-medium"
+                    android:letterSpacing="0.06"
+                    android:gravity="center"
+                    android:paddingVertical="12dp"
+                    android:background="@drawable/btn_filled_green"
+                    android:visibility="gone" />
+
+                <!-- Result area -->
+                <TextView
+                    android:id="@+id/doctorStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textSize="13sp"
+                    android:textColor="@color/text_secondary"
+                    android:fontFamily="sans-serif-light"
+                    android:lineSpacingMultiplier="1.5"
+                    android:layout_marginTop="12dp"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Health log card -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="16dp"
+            app:cardBackgroundColor="@color/bg_card"
+            app:cardCornerRadius="18dp"
+            app:cardElevation="1dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:fontFamily="sans-serif"
+                    android:letterSpacing="0.14"
+                    android:text="health log"
+                    android:textAllCaps="true"
+                    android:textColor="@color/green_muted"
+                    android:textSize="10sp" />
+
+                <!-- Filter row: ··· trigger + collapsible pills -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="14dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/filterTrigger"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/pill_unselected"
+                        android:fontFamily="sans-serif-medium"
+                        android:letterSpacing="0.04"
+                        android:paddingHorizontal="12dp"
+                        android:paddingVertical="5dp"
+                        android:text="···"
+                        android:textColor="@color/green_muted"
+                        android:textSize="11sp" />
+
+                    <HorizontalScrollView
+                        android:id="@+id/filterPillsExpanded"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:scrollbars="none"
+                        android:visibility="gone">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/filterAll"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="6dp"
+                                android:background="@drawable/pill_selected"
+                                android:fontFamily="sans-serif-medium"
+                                android:letterSpacing="0.04"
+                                android:paddingHorizontal="12dp"
+                                android:paddingVertical="5dp"
+                                android:text="all"
+                                android:textColor="#FFFFFF"
+                                android:textSize="11sp" />
+
+                            <TextView
+                                android:id="@+id/filterNotes"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="6dp"
+                                android:background="@drawable/pill_unselected"
+                                android:fontFamily="sans-serif-medium"
+                                android:letterSpacing="0.04"
+                                android:paddingHorizontal="12dp"
+                                android:paddingVertical="5dp"
+                                android:text="📝 notes"
+                                android:textColor="@color/green_muted"
+                                android:textSize="11sp" />
+
+                            <TextView
+                                android:id="@+id/filterDiagnosis"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="6dp"
+                                android:background="@drawable/pill_unselected"
+                                android:fontFamily="sans-serif-medium"
+                                android:letterSpacing="0.04"
+                                android:paddingHorizontal="12dp"
+                                android:paddingVertical="5dp"
+                                android:text="🩺 doctor"
+                                android:textColor="@color/green_muted"
+                                android:textSize="11sp" />
+
+                            <TextView
+                                android:id="@+id/filterFertilized"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="6dp"
+                                android:background="@drawable/pill_unselected"
+                                android:fontFamily="sans-serif-medium"
+                                android:letterSpacing="0.04"
+                                android:paddingHorizontal="12dp"
+                                android:paddingVertical="5dp"
+                                android:text="🌱 fertilized"
+                                android:textColor="@color/green_muted"
+                                android:textSize="11sp" />
+
+                            <TextView
+                                android:id="@+id/filterRepotted"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/pill_unselected"
+                                android:fontFamily="sans-serif-medium"
+                                android:letterSpacing="0.04"
+                                android:paddingHorizontal="12dp"
+                                android:paddingVertical="5dp"
+                                android:layout_marginEnd="6dp"
+                                android:text="🪴 repotted"
+                                android:textColor="@color/green_muted"
+                                android:textSize="11sp" />
+
+                            <TextView
+                                android:id="@+id/filterWater"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/pill_unselected"
+                                android:fontFamily="sans-serif-medium"
+                                android:letterSpacing="0.04"
+                                android:paddingHorizontal="12dp"
+                                android:paddingVertical="5dp"
+                                android:layout_marginEnd="6dp"
+                                android:text="💧 watered"
+                                android:textColor="@color/green_muted"
+                                android:textSize="11sp"
+                                android:visibility="gone" />
+
+                            <TextView
+                                android:id="@+id/filterMisted"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/pill_unselected"
+                                android:fontFamily="sans-serif-medium"
+                                android:letterSpacing="0.04"
+                                android:paddingHorizontal="12dp"
+                                android:paddingVertical="5dp"
+                                android:layout_marginEnd="6dp"
+                                android:text="💦 misted"
+                                android:textColor="@color/green_muted"
+                                android:textSize="11sp"
+                                android:visibility="gone" />
+
+                            <TextView
+                                android:id="@+id/filterRotated"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/pill_unselected"
+                                android:fontFamily="sans-serif-medium"
+                                android:letterSpacing="0.04"
+                                android:paddingHorizontal="12dp"
+                                android:paddingVertical="5dp"
+                                android:text="🔄 rotated"
+                                android:textColor="@color/green_muted"
+                                android:textSize="11sp"
+                                android:visibility="gone" />
+
+                            <TextView
+                                android:id="@+id/filterCleaned"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/pill_unselected"
+                                android:fontFamily="sans-serif-medium"
+                                android:letterSpacing="0.04"
+                                android:paddingHorizontal="12dp"
+                                android:paddingVertical="5dp"
+                                android:text="🍃 cleaned"
+                                android:textColor="@color/green_muted"
+                                android:textSize="11sp"
+                                android:visibility="gone" />
+
+                        </LinearLayout>
+                    </HorizontalScrollView>
+
+                </LinearLayout>
+
+                <!-- Input row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/logInput"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="12dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/input_underline"
+                        android:fontFamily="sans-serif-light"
+                        android:hint="add a note..."
+                        android:inputType="textCapSentences"
+                        android:paddingBottom="6dp"
+                        android:textColor="@color/text_primary"
+                        android:textColorHint="@color/text_hint"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/btnAddLog"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/btn_outline_green"
+                        android:fontFamily="sans-serif-medium"
+                        android:letterSpacing="0.04"
+                        android:paddingHorizontal="14dp"
+                        android:paddingVertical="7dp"
+                        android:text="add"
+                        android:textColor="@color/green_forest"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
+
+                <!-- Log entries RecyclerView -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/logRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clipToPadding="false"
+                    android:divider="@drawable/divider_line"
+                    android:dividerHeight="1dp"
+                    android:nestedScrollingEnabled="false"
+                    android:paddingBottom="12dp" />
+
+                <!-- Empty state -->
+                <TextView
+                    android:id="@+id/logEmpty"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:fontFamily="sans-serif-light"
+                    android:text="no entries yet"
+                    android:textColor="@color/text_hint"
+                    android:textSize="13sp"
+                    android:visibility="gone" />
+
+                <!-- Spacer so last entry never clips against card edge -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+
+</ScrollView>
+
+<!-- Top edge indicator -->
+<View
+    android:id="@+id/edgeIndicatorTop"
+    android:layout_width="match_parent"
+    android:layout_height="5dp"
+    android:layout_gravity="top"
+    android:background="@color/green_forest"
+    android:alpha="0" />
+
+<!-- Bottom edge indicator -->
+<View
+    android:id="@+id/edgeIndicatorBottom"
+    android:layout_width="match_parent"
+    android:layout_height="5dp"
+    android:layout_gravity="bottom"
+    android:background="@color/green_forest"
+    android:alpha="0" />
+
+</FrameLayout>

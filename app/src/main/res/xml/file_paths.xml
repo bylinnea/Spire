@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <external-files-path name="plant_photos" path="Pictures/" />
+    <cache-path name="cropped_photos" path="." />
+    <files-path name="growth_photos" path="." />
+</paths>

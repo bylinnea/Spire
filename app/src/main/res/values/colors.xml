@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="bg_cream">#F7F5F0</color>
+    <color name="bg_white">#FFFFFF</color>
+    <color name="bg_card">#FFFFFF</color>
+    <color name="green_deep">#2A4A2A</color>
+    <color name="green_forest">#3D6B3D</color>
+    <color name="green_muted">#6B8F6B</color>
+    <color name="green_sage">#A8BFA8</color>
+    <color name="green_pale">#EDF2ED</color>
+    <color name="status_overdue_bg">#FDF0EE</color>
+    <color name="status_overdue_dot">#C0705A</color>
+    <color name="status_ok_bg">#F0F4F0</color>
+    <color name="status_ok_dot">#5A8A5A</color>
+    <color name="amber">#B08A3E</color>
+    <color name="text_primary">#1C2B1A</color>
+    <color name="text_secondary">#6B7D6A</color>
+    <color name="text_hint">#A8B5A7</color>
+    <color name="swipe_delete">#C0705A</color>
+    <color name="swipe_edit">#3D6B3D</color>
+</resources>

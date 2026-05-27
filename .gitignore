@@ -1,0 +1,65 @@
+# ──────────────────────────────────────────
+# Build artifacts
+# ──────────────────────────────────────────
+.gradle/
+build/
+/*/build/
+app/build/
+
+# ──────────────────────────────────────────
+# Local configuration (never commit these)
+# ──────────────────────────────────────────
+local.properties
+
+# ──────────────────────────────────────────
+# Signing keys (IMPORTANT - never commit)
+# ──────────────────────────────────────────
+*.keystore
+*.jks
+keystore.properties
+release.properties
+
+# ──────────────────────────────────────────
+# Kotlin / Android Studio internals
+# ──────────────────────────────────────────
+.kotlin/
+*.iml
+
+# ──────────────────────────────────────────
+# IntelliJ / Android Studio project files
+# Keep: .idea/codeStyles/, .idea/compiler.xml,
+#       .idea/runConfigurations.xml, .idea/gradle.xml
+# Drop: user-specific and generated files
+# ──────────────────────────────────────────
+.idea/workspace.xml
+.idea/libraries/
+.idea/caches/
+.idea/modules.xml
+.idea/navEditor.xml
+.idea/assetWizardSettings.xml
+.idea/deploymentTargetSelector.xml
+.idea/deploymentTargetDropDown.xml
+.idea/deviceManager.xml
+
+# ──────────────────────────────────────────
+# System files
+# ──────────────────────────────────────────
+.DS_Store
+Thumbs.db
+
+# ──────────────────────────────────────────
+# Captures and logs
+# ──────────────────────────────────────────
+captures/
+*.log
+
+# ──────────────────────────────────────────
+# Native build
+# ──────────────────────────────────────────
+.externalNativeBuild/
+.cxx/
+
+# ──────────────────────────────────────────
+# Google services (if added later)
+# ──────────────────────────────────────────
+google-services.json

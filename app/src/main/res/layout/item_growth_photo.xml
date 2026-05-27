@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginEnd="12dp">
+
+    <ImageView
+        android:id="@+id/growthPhotoImage"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:scaleType="centerCrop"
+        android:contentDescription="Growth photo" />
+
+    <TextView
+        android:id="@+id/growthPhotoDate"
+        android:layout_width="90dp"
+        android:layout_height="wrap_content"
+        android:textSize="10sp"
+        android:textColor="@color/text_hint"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center"
+        android:layout_marginTop="4dp" />
+
+</LinearLayout>

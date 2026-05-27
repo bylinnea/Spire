@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:paddingHorizontal="24dp"
+    android:paddingVertical="14dp"
+    android:background="@color/bg_cream">
+
+    <!-- Photo or emoji placeholder -->
+    <FrameLayout
+        android:layout_width="52dp"
+        android:layout_height="52dp"
+        android:layout_marginEnd="16dp">
+
+        <ImageView
+            android:id="@+id/graveyardPhoto"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            android:scaleType="centerCrop"
+            android:alpha="0.6"
+            android:contentDescription="Plant photo" />
+
+        <TextView
+            android:id="@+id/graveyardEmoji"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            android:text="🪴"
+            android:textSize="28sp"
+            android:gravity="center"
+            android:alpha="0.4" />
+
+    </FrameLayout>
+
+    <!-- Text info -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/graveyardName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@color/text_primary"
+            android:fontFamily="sans-serif-medium"
+            android:alpha="0.7" />
+
+        <TextView
+            android:id="@+id/graveyardSpecies"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="@color/text_secondary"
+            android:fontFamily="sans-serif"
+            android:layout_marginTop="1dp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/graveyardDateAcquired"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="@color/text_secondary"
+            android:fontFamily="sans-serif"
+            android:layout_marginTop="1dp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/graveyardDiedDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="@color/green_muted"
+            android:fontFamily="sans-serif"
+            android:layout_marginTop="3dp" />
+
+    </LinearLayout>
+
+</LinearLayout>

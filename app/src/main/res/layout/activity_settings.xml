@@ -1,0 +1,559 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_cream"
+    android:clipToPadding="false"
+    android:clipChildren="false">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="24dp"
+        android:paddingTop="52dp"
+        android:paddingBottom="40dp"
+        android:clipToPadding="false"
+        android:clipChildren="false">
+
+        <!-- Header -->
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="spire" android:textSize="11sp" android:textColor="@color/green_muted"
+            android:fontFamily="sans-serif" android:letterSpacing="0.16" android:textAllCaps="true"
+            android:layout_marginBottom="4dp" />
+
+        <!-- Title -->
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="Settings" android:textSize="28sp" android:textColor="@color/green_deep"
+            android:fontFamily="sans-serif-light" />
+
+        <!-- Back Button  -->
+        <TextView android:id="@+id/btnBack" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:text="← back"
+            android:textSize="13sp" android:textColor="@color/green_muted"
+            android:fontFamily="sans-serif-light" android:letterSpacing="0.04"
+            android:paddingTop="8dp" android:paddingBottom="32dp" />
+
+        <!-- SECTION: AI -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ai &amp; identification"
+            android:textSize="10sp" android:textColor="@color/green_muted"
+            android:fontFamily="sans-serif" android:letterSpacing="0.16"
+            android:textAllCaps="true"
+            android:layout_marginBottom="10dp" />
+
+        <!-- AI toggle card -->
+        <androidx.cardview.widget.CardView android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:layout_marginBottom="16dp"
+            app:cardCornerRadius="18dp" app:cardElevation="1dp"
+            app:cardBackgroundColor="@color/bg_card">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="vertical" android:padding="20dp">
+
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="horizontal" android:gravity="center_vertical">
+                    <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                        android:layout_weight="1" android:orientation="vertical">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:text="AI features" android:textSize="15sp"
+                            android:textColor="@color/text_primary" android:fontFamily="sans-serif-medium" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:text="Plant identification &amp; care recommendations"
+                            android:textSize="12sp" android:textColor="@color/text_hint"
+                            android:fontFamily="sans-serif-light" android:layout_marginTop="2dp" />
+                    </LinearLayout>
+                    <Switch android:id="@+id/switchAiEnabled"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <TextView android:id="@+id/btnToggleAiKeys"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="manage api keys ↓"
+                    android:textSize="12sp" android:textColor="@color/green_forest"
+                    android:fontFamily="sans-serif-medium" android:letterSpacing="0.04"
+                    android:paddingTop="16dp" android:visibility="gone" />
+                <TextView android:id="@+id/btnAiKeysInfo"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="what are these keys? ↓"
+                    android:textSize="12sp" android:textColor="@color/green_forest"
+                    android:fontFamily="sans-serif-medium" android:letterSpacing="0.04"
+                    android:paddingTop="8dp" android:visibility="gone" />
+
+                <LinearLayout android:id="@+id/aiKeysInfoSection"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="vertical" android:visibility="gone"
+                    android:layout_marginTop="12dp">
+
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:text="🤖 Anthropic (recommended)"
+                        android:textSize="13sp" android:textColor="@color/text_primary"
+                        android:fontFamily="sans-serif-medium" android:layout_marginBottom="4dp" />
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:text="With an Anthropic key you get full AI features: plant identification, care recommendations, plant doctor and more. With PlantNet only, you get photo-based plant identification. Keys are stored encrypted on your device and never shared."
+                        android:textSize="12sp" android:textColor="@color/text_hint"
+                        android:fontFamily="sans-serif-light" android:lineSpacingMultiplier="1.5"
+                        android:layout_marginBottom="14dp" />
+
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:text="🌿 PlantNet (optional)"
+                        android:textSize="13sp" android:textColor="@color/text_primary"
+                        android:fontFamily="sans-serif-medium" android:layout_marginBottom="4dp" />
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:text="Improves plant identification accuracy using a dedicated plant database. Without it, Claude identifies plants directly from photos. Get a free key at my.plantnet.org. Create an account and find your API key in your profile."
+                        android:textSize="12sp" android:textColor="@color/text_hint"
+                        android:fontFamily="sans-serif-light" android:lineSpacingMultiplier="1.5" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- API keys section -->
+        <LinearLayout android:id="@+id/aiKeysSection"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="vertical" android:visibility="gone">
+
+            <!-- Anthropic -->
+            <androidx.cardview.widget.CardView android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:layout_marginBottom="16dp"
+                app:cardCornerRadius="18dp" app:cardElevation="1dp"
+                app:cardBackgroundColor="@color/bg_card">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="vertical" android:padding="20dp">
+
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="anthropic key  ·  recommended"
+                        android:textSize="10sp" android:textColor="@color/green_muted"
+                        android:fontFamily="sans-serif" android:letterSpacing="0.14"
+                        android:textAllCaps="true" android:layout_marginBottom="6dp" />
+
+                    <TextView android:id="@+id/keyStatus" android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:text="No key saved"
+                        android:textSize="13sp" android:textColor="@color/text_hint"
+                        android:fontFamily="sans-serif-light" android:layout_marginBottom="12dp" />
+
+                    <EditText android:id="@+id/inputApiKey" android:layout_width="match_parent"
+                        android:layout_height="wrap_content" android:layout_marginBottom="12dp"
+                        android:hint="sk-ant-..." android:textColorHint="@color/text_hint"
+                        android:textColor="@color/text_primary" android:textSize="13sp"
+                        android:fontFamily="monospace" android:inputType="textPassword"
+                        android:importantForAutofill="no"
+                        android:background="@drawable/input_underline" android:paddingBottom="8dp" />
+
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="console.anthropic.com"
+                        android:textSize="11sp" android:textColor="@color/text_hint"
+                        android:fontFamily="sans-serif-light" android:layout_marginBottom="4dp" />
+
+                    <TextView android:id="@+id/btnClearKey" android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:text="clear saved key"
+                        android:textSize="12sp" android:textColor="@color/status_overdue_dot"
+                        android:fontFamily="sans-serif-light" android:visibility="gone"
+                        android:paddingTop="8dp" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- PlantNet -->
+            <androidx.cardview.widget.CardView android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:layout_marginBottom="16dp"
+                app:cardCornerRadius="18dp" app:cardElevation="1dp"
+                app:cardBackgroundColor="@color/bg_card">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="vertical" android:padding="20dp">
+
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="plantnet key  ·  optional"
+                        android:textSize="10sp" android:textColor="@color/green_muted"
+                        android:fontFamily="sans-serif" android:letterSpacing="0.14"
+                        android:textAllCaps="true" android:layout_marginBottom="6dp" />
+
+                    <TextView android:id="@+id/plantnetStatus" android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:text="No key saved (optional)"
+                        android:textSize="13sp" android:textColor="@color/text_hint"
+                        android:fontFamily="sans-serif-light" android:layout_marginBottom="12dp" />
+
+                    <EditText android:id="@+id/inputPlantNetKey" android:layout_width="match_parent"
+                        android:layout_height="wrap_content" android:layout_marginBottom="12dp"
+                        android:hint="2b10..." android:textColorHint="@color/text_hint"
+                        android:textColor="@color/text_primary" android:textSize="13sp"
+                        android:fontFamily="monospace" android:inputType="textPassword"
+                        android:importantForAutofill="no"
+                        android:background="@drawable/input_underline" android:paddingBottom="8dp" />
+
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:text="my.plantnet.org - for photo identification. Without this key, Claude AI will identify the plant directly from your photo."
+                        android:textSize="11sp" android:textColor="@color/text_hint"
+                        android:fontFamily="sans-serif-light" android:lineSpacingMultiplier="1.4"
+                        android:layout_marginBottom="4dp" />
+
+                    <TextView android:id="@+id/btnClearPlantNet" android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:text="clear saved key"
+                        android:textSize="12sp" android:textColor="@color/status_overdue_dot"
+                        android:fontFamily="sans-serif-light" android:visibility="gone"
+                        android:paddingTop="8dp" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- AI Info -->
+            <androidx.cardview.widget.CardView android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="18dp" app:cardElevation="1dp"
+                app:cardBackgroundColor="@color/green_pale">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="vertical" android:padding="18dp">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="about ai features"
+                        android:textSize="10sp" android:textColor="@color/green_muted"
+                        android:fontFamily="sans-serif" android:letterSpacing="0.14"
+                        android:textAllCaps="true" android:layout_marginBottom="8dp" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="When AI is enabled, adding a photo to a plant will automatically identify the species and suggest care info. Keys are stored encrypted on your device and never shared."
+                        android:textSize="13sp" android:textColor="@color/text_secondary"
+                        android:fontFamily="sans-serif-light" android:lineSpacingMultiplier="1.5" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Save button -->
+            <TextView android:id="@+id/btnSaveKey" android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:layout_marginBottom="16dp"
+                android:text="save keys" android:textSize="14sp" android:textColor="#FFFFFF"
+                android:fontFamily="sans-serif-medium" android:letterSpacing="0.06"
+                android:textAllCaps="false" android:gravity="center"
+                android:paddingVertical="16dp" android:background="@drawable/btn_filled_green" />
+
+        </LinearLayout>
+
+        <androidx.cardview.widget.CardView android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:layout_marginBottom="16dp"
+            app:cardCornerRadius="18dp" app:cardElevation="1dp"
+            app:cardBackgroundColor="@color/bg_card">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="vertical" android:padding="20dp">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="plant name style"
+                    android:textSize="10sp" android:textColor="@color/green_muted"
+                    android:fontFamily="sans-serif" android:letterSpacing="0.14"
+                    android:textAllCaps="true" android:layout_marginBottom="4dp" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="AI will suggest a name in this style when identifying a plant. Leave blank to use the plant's common name."
+                    android:textSize="12sp" android:textColor="@color/text_hint"
+                    android:fontFamily="sans-serif-light" android:lineSpacingMultiplier="1.4"
+                    android:layout_marginBottom="12dp" />
+                <EditText android:id="@+id/inputNameStyle"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:hint="e.g. video game characters, Scandinavian names, cozy names"
+                    android:textColorHint="@color/text_hint" android:textColor="@color/text_primary"
+                    android:textSize="14sp" android:fontFamily="sans-serif-light"
+                    android:inputType="textCapSentences"
+                    android:background="@drawable/input_underline" android:paddingBottom="8dp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- SECTION: Health log -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="health log"
+            android:textSize="10sp" android:textColor="@color/green_muted"
+            android:fontFamily="sans-serif" android:letterSpacing="0.16"
+            android:textAllCaps="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="8dp" />
+
+        <!-- Health log settings -->
+        <androidx.cardview.widget.CardView android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:layout_marginBottom="16dp"
+            app:cardCornerRadius="18dp" app:cardElevation="1dp"
+            app:cardBackgroundColor="@color/bg_card">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="vertical" android:padding="20dp">
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="health log  ·  auto-log events"
+                    android:textSize="10sp" android:textColor="@color/green_muted"
+                    android:fontFamily="sans-serif" android:letterSpacing="0.14"
+                    android:textAllCaps="true" android:layout_marginBottom="4dp" />
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="Choose which care events are automatically added to the health log"
+                    android:textSize="12sp" android:textColor="@color/text_hint"
+                    android:fontFamily="sans-serif-light" android:lineSpacingMultiplier="1.4"
+                    android:layout_marginBottom="16dp" />
+
+                <!-- Watering -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="horizontal" android:gravity="center_vertical"
+                    android:layout_marginBottom="14dp">
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                        android:layout_weight="1" android:text="💧 watering"
+                        android:textSize="14sp" android:textColor="@color/text_primary"
+                        android:fontFamily="sans-serif-light" />
+                    <Switch android:id="@+id/switchLogWater"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <!-- Fertilizing -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="horizontal" android:gravity="center_vertical"
+                    android:layout_marginBottom="14dp">
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                        android:layout_weight="1" android:text="🌱 fertilizing"
+                        android:textSize="14sp" android:textColor="@color/text_primary"
+                        android:fontFamily="sans-serif-light" />
+                    <Switch android:id="@+id/switchLogFertilize"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <!-- Repotting -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="horizontal" android:gravity="center_vertical"
+                    android:layout_marginBottom="14dp">
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                        android:layout_weight="1" android:text="🪴 repotting"
+                        android:textSize="14sp" android:textColor="@color/text_primary"
+                        android:fontFamily="sans-serif-light" />
+                    <Switch android:id="@+id/switchLogRepot"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <!-- Misting -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="horizontal" android:gravity="center_vertical"
+                    android:layout_marginBottom="14dp">
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                        android:layout_weight="1" android:text="💦 misting"
+                        android:textSize="14sp" android:textColor="@color/text_primary"
+                        android:fontFamily="sans-serif-light" />
+                    <Switch android:id="@+id/switchLogMist"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <!-- Rotating -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="horizontal" android:gravity="center_vertical"
+                    android:layout_marginBottom="14dp">
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                        android:layout_weight="1" android:text="🔄 rotating"
+                        android:textSize="14sp" android:textColor="@color/text_primary"
+                        android:fontFamily="sans-serif-light" />
+                    <Switch android:id="@+id/switchLogRotate"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <!-- Cleaning -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="horizontal" android:gravity="center_vertical">
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                        android:layout_weight="1" android:text="🍃 cleaning leaves"
+                        android:textSize="14sp" android:textColor="@color/text_primary"
+                        android:fontFamily="sans-serif-light" />
+                    <Switch android:id="@+id/switchLogClean"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- SECTION: General -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="general"
+            android:textSize="10sp" android:textColor="@color/green_muted"
+            android:fontFamily="sans-serif" android:letterSpacing="0.16"
+            android:textAllCaps="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="8dp" />
+
+        <!-- Seasonal mode -->
+        <androidx.cardview.widget.CardView android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:layout_marginBottom="16dp"
+            app:cardCornerRadius="18dp" app:cardElevation="1dp"
+            app:cardBackgroundColor="@color/bg_card">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="vertical" android:padding="20dp">
+
+                <!-- Toggle row -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="horizontal" android:gravity="center_vertical">
+                    <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                        android:layout_weight="1" android:orientation="vertical">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:text="Seasonal mode"
+                            android:textSize="15sp" android:textColor="@color/text_primary"
+                            android:fontFamily="sans-serif-medium" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:text="Switch all plants to their winter care schedule"
+                            android:textSize="12sp" android:textColor="@color/text_hint"
+                            android:fontFamily="sans-serif-light" android:layout_marginTop="2dp" />
+                    </LinearLayout>
+                    <Switch android:id="@+id/switchWinterMode"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <!-- ? info toggle -->
+                <TextView android:id="@+id/btnWinterInfo"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="when should I use this? ↓"
+                    android:textSize="12sp" android:textColor="@color/green_forest"
+                    android:fontFamily="sans-serif-medium" android:letterSpacing="0.04"
+                    android:paddingTop="14dp" />
+
+                <!-- Collapsible explanation -->
+                <TextView android:id="@+id/winterInfoText"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:text="Turn this on when your plants enter their dormant season, typically when indoor temperatures drop below 15°C or daylight hours shorten significantly (late autumn through winter). Each plant will switch to its winter care interval. You can set winter intervals per plant in the edit view, and disable seasonal mode per plant if needed."
+                    android:textSize="13sp" android:textColor="@color/text_secondary"
+                    android:fontFamily="sans-serif-light" android:lineSpacingMultiplier="1.5"
+                    android:layout_marginTop="12dp"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Notification style -->
+        <androidx.cardview.widget.CardView android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:layout_marginBottom="32dp"
+            app:cardCornerRadius="18dp" app:cardElevation="1dp"
+            app:cardBackgroundColor="@color/bg_card"
+            app:cardUseCompatPadding="true">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="vertical" android:padding="20dp">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="horizontal" android:gravity="center_vertical">
+                    <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                        android:layout_weight="1" android:orientation="vertical">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:text="Combined notifications"
+                            android:textSize="15sp" android:textColor="@color/text_primary"
+                            android:fontFamily="sans-serif-medium" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:text="One summary notification instead of one per plant"
+                            android:textSize="12sp" android:textColor="@color/text_hint"
+                            android:fontFamily="sans-serif-light" android:layout_marginTop="2dp" />
+                    </LinearLayout>
+                    <Switch android:id="@+id/switchSingleNotif"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:layout_marginBottom="16dp"
+            app:cardCornerRadius="18dp" app:cardElevation="1dp"
+            app:cardBackgroundColor="@color/bg_card">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="vertical" android:padding="20dp">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="rooms"
+                    android:textSize="10sp" android:textColor="@color/green_muted"
+                    android:fontFamily="sans-serif" android:letterSpacing="0.14"
+                    android:textAllCaps="true" android:layout_marginBottom="4dp" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="Remove a room from all plants"
+                    android:textSize="12sp" android:textColor="@color/text_hint"
+                    android:fontFamily="sans-serif-light" android:lineSpacingMultiplier="1.4"
+                    android:layout_marginBottom="14dp" />
+                <TextView android:id="@+id/btnManageRooms"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="manage rooms ↓"
+                    android:textSize="12sp" android:textColor="@color/green_forest"
+                    android:fontFamily="sans-serif-medium" android:letterSpacing="0.04" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:layout_marginBottom="16dp"
+            app:cardCornerRadius="18dp" app:cardElevation="1dp"
+            app:cardBackgroundColor="@color/bg_card">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="vertical" android:padding="20dp">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="backup &amp; restore"
+                    android:textSize="10sp" android:textColor="@color/green_muted"
+                    android:fontFamily="sans-serif" android:letterSpacing="0.14"
+                    android:textAllCaps="true" android:layout_marginBottom="4dp" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="Export all your plants and care logs to a file. Import to restore or move to a new device. Plants with the same name are skipped on import."
+                    android:textSize="12sp" android:textColor="@color/text_hint"
+                    android:fontFamily="sans-serif-light" android:lineSpacingMultiplier="1.4"
+                    android:layout_marginBottom="16dp" />
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="horizontal" android:gravity="center_vertical">
+                    <TextView android:id="@+id/btnExportData"
+                        android:layout_width="0dp" android:layout_height="wrap_content"
+                        android:layout_weight="1" android:layout_marginEnd="8dp"
+                        android:text="export data"
+                        android:textSize="13sp" android:textColor="@color/green_forest"
+                        android:fontFamily="sans-serif-medium" android:letterSpacing="0.04"
+                        android:gravity="center" android:paddingVertical="12dp"
+                        android:background="@drawable/btn_outline_green" />
+                    <TextView android:id="@+id/btnImportData"
+                        android:layout_width="0dp" android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="import data"
+                        android:textSize="13sp" android:textColor="@color/green_forest"
+                        android:fontFamily="sans-serif-medium" android:letterSpacing="0.04"
+                        android:gravity="center" android:paddingVertical="12dp"
+                        android:background="@drawable/btn_outline_green" />
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Re-run onboarding -->
+        <androidx.cardview.widget.CardView android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:layout_marginBottom="16dp"
+            app:cardCornerRadius="18dp" app:cardElevation="1dp"
+            app:cardBackgroundColor="@color/bg_card">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="vertical" android:padding="20dp">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="setup"
+                    android:textSize="10sp" android:textColor="@color/green_muted"
+                    android:fontFamily="sans-serif" android:letterSpacing="0.14"
+                    android:textAllCaps="true" android:layout_marginBottom="4dp" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="Re-run the welcome setup to change your AI preferences"
+                    android:textSize="12sp" android:textColor="@color/text_hint"
+                    android:fontFamily="sans-serif-light" android:lineSpacingMultiplier="1.4"
+                    android:layout_marginBottom="14dp" />
+                <TextView android:id="@+id/btnRerunOnboarding"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:text="re-run setup"
+                    android:textSize="13sp" android:textColor="@color/green_forest"
+                    android:fontFamily="sans-serif-medium" android:letterSpacing="0.04"
+                    android:gravity="center" android:paddingVertical="12dp"
+                    android:background="@drawable/btn_outline_green" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:layout_marginBottom="32dp"
+            app:cardCornerRadius="18dp" app:cardElevation="1dp"
+            app:cardBackgroundColor="@color/bg_card">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="vertical" android:padding="20dp">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="danger zone"
+                    android:textSize="10sp" android:textColor="@color/status_overdue_dot"
+                    android:fontFamily="sans-serif" android:letterSpacing="0.14"
+                    android:textAllCaps="true" android:layout_marginBottom="4dp" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="Permanently delete all plants, logs and settings. This cannot be undone."
+                    android:textSize="12sp" android:textColor="@color/text_hint"
+                    android:fontFamily="sans-serif-light" android:lineSpacingMultiplier="1.4"
+                    android:layout_marginBottom="14dp" />
+                <TextView android:id="@+id/btnDeleteAllData"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:text="delete all data"
+                    android:textSize="13sp" android:textColor="@color/status_overdue_dot"
+                    android:fontFamily="sans-serif-medium" android:letterSpacing="0.04"
+                    android:gravity="center" android:paddingVertical="12dp"
+                    android:background="@drawable/btn_outline_terracotta" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+</ScrollView>

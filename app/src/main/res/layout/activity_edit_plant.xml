@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@color/bg_cream">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="vertical" android:paddingHorizontal="24dp"
+        android:paddingTop="52dp" android:paddingBottom="32dp">
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="editing" android:textSize="11sp" android:textColor="@color/green_muted"
+            android:fontFamily="sans-serif" android:letterSpacing="0.16" android:textAllCaps="true" android:layout_marginBottom="4dp" />
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="Edit plant" android:textSize="28sp" android:textColor="@color/green_deep"
+            android:fontFamily="sans-serif-light" android:layout_marginBottom="28dp" />
+
+        <!-- Photo -->
+        <androidx.cardview.widget.CardView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp" app:cardCornerRadius="18dp" app:cardElevation="1dp" app:cardBackgroundColor="@color/bg_card">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="vertical" android:padding="20dp" android:gravity="center_horizontal">
+                <ImageView android:id="@+id/photoPreview" android:layout_width="80dp" android:layout_height="80dp"
+                    android:scaleType="centerCrop" android:src="@android:drawable/ic_menu_gallery"
+                    android:layout_marginBottom="10dp" android:contentDescription="Plant photo" />
+                <TextView android:id="@+id/photoLabel" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="optional photo" android:textSize="12sp" android:textColor="@color/text_hint"
+                    android:fontFamily="sans-serif-light" android:layout_marginBottom="14dp" />
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+                    <TextView android:id="@+id/buttonCamera" android:layout_width="0dp" android:layout_height="wrap_content"
+                        android:layout_weight="1" android:layout_marginEnd="8dp" android:text="camera"
+                        android:textSize="13sp" android:textColor="@color/green_forest" android:fontFamily="sans-serif-medium"
+                        android:letterSpacing="0.04" android:gravity="center" android:paddingVertical="10dp"
+                        android:background="@drawable/btn_outline_green" />
+                    <TextView android:id="@+id/buttonGallery" android:layout_width="0dp" android:layout_height="wrap_content"
+                        android:layout_weight="1" android:layout_marginStart="8dp" android:text="gallery"
+                        android:textSize="13sp" android:textColor="@color/green_forest" android:fontFamily="sans-serif-medium"
+                        android:letterSpacing="0.04" android:gravity="center" android:paddingVertical="10dp"
+                        android:background="@drawable/btn_outline_green" />
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Ask AI button -->
+        <TextView
+            android:id="@+id/btnAskAi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:text="✨ ask AI for care info from image"
+            android:textSize="13sp"
+            android:textColor="@color/green_forest"
+            android:fontFamily="sans-serif-medium"
+            android:letterSpacing="0.04"
+            android:gravity="center"
+            android:paddingVertical="12dp"
+            android:background="@drawable/btn_outline_green"
+            android:visibility="gone" />
+        <TextView
+            android:id="@+id/btnAskAiByName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:text="✨ ask AI for care info from species"
+            android:textSize="13sp"
+            android:textColor="@color/green_forest"
+            android:fontFamily="sans-serif-medium"
+            android:letterSpacing="0.04"
+            android:gravity="center"
+            android:paddingVertical="12dp"
+            android:background="@drawable/btn_outline_green"
+            android:visibility="gone" />
+
+        <!-- Essentials -->
+        <androidx.cardview.widget.CardView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp" app:cardCornerRadius="18dp" app:cardElevation="1dp" app:cardBackgroundColor="@color/bg_card">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="vertical" android:padding="20dp">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="name" android:textSize="10sp" android:textColor="@color/green_muted"
+                    android:fontFamily="sans-serif" android:letterSpacing="0.14" android:textAllCaps="true" android:layout_marginBottom="6dp" />
+                <EditText android:id="@+id/inputPlantName" android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp" android:hint="Plant name" android:textColorHint="@color/text_hint"
+                    android:textColor="@color/text_primary" android:textSize="16sp" android:fontFamily="sans-serif-light"
+                    android:inputType="textCapSentences" android:background="@drawable/input_underline" android:paddingBottom="8dp" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="water every" android:textSize="10sp" android:textColor="@color/green_muted"
+                    android:fontFamily="sans-serif" android:letterSpacing="0.14" android:textAllCaps="true" android:layout_marginBottom="6dp" />
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="horizontal" android:gravity="center_vertical">
+                    <EditText android:id="@+id/inputWateringInterval" android:layout_width="60dp" android:layout_height="wrap_content"
+                        android:hint="3" android:textColorHint="@color/text_hint" android:textColor="@color/text_primary"
+                        android:textSize="16sp" android:fontFamily="sans-serif-light" android:inputType="number"
+                        android:background="@drawable/input_underline" android:paddingBottom="8dp" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp" android:text="days" android:textSize="15sp"
+                        android:textColor="@color/text_secondary" android:fontFamily="sans-serif-light" />
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Care schedule -->
+        <androidx.cardview.widget.CardView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp" app:cardCornerRadius="18dp" app:cardElevation="1dp" app:cardBackgroundColor="@color/bg_card">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="vertical" android:padding="20dp">
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="care schedule  ·  optional" android:textSize="10sp" android:textColor="@color/green_muted"
+                    android:fontFamily="sans-serif" android:letterSpacing="0.14" android:textAllCaps="true" android:layout_marginBottom="16dp" />
+
+                <!-- Fertilizer -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="6dp">
+                    <TextView android:layout_width="24dp" android:layout_height="wrap_content" android:text="🌱" android:textSize="16sp" />
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                        android:text="fertilize every" android:textSize="13sp" android:textColor="@color/text_secondary"
+                        android:fontFamily="sans-serif-light" android:layout_marginStart="8dp" />
+                    <EditText android:id="@+id/inputFertilizerInterval" android:layout_width="50dp" android:layout_height="wrap_content"
+                        android:hint="30" android:textColorHint="@color/text_hint" android:textColor="@color/text_primary"
+                        android:textSize="14sp" android:fontFamily="sans-serif-light" android:inputType="number"
+                        android:background="@drawable/input_underline" android:paddingBottom="4dp" android:gravity="center" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp" android:text="days" android:textSize="13sp"
+                        android:textColor="@color/text_secondary" android:fontFamily="sans-serif-light" />
+                </LinearLayout>
+                <EditText android:id="@+id/inputFertilizerType" android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp" android:layout_marginBottom="18dp"
+                    android:hint="fertilizer type e.g. Balanced liquid NPK" android:textColorHint="@color/text_hint"
+                    android:textColor="@color/text_primary" android:textSize="13sp" android:fontFamily="sans-serif-light"
+                    android:inputType="textCapSentences" android:background="@drawable/input_underline" android:paddingBottom="4dp" />
+
+                <!-- Repotting -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="18dp">
+                    <TextView android:layout_width="24dp" android:layout_height="wrap_content" android:text="🪴" android:textSize="16sp" />
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                        android:text="repot every" android:textSize="13sp" android:textColor="@color/text_secondary"
+                        android:fontFamily="sans-serif-light" android:layout_marginStart="8dp" />
+                    <EditText android:id="@+id/inputRepottingInterval" android:layout_width="50dp" android:layout_height="wrap_content"
+                        android:hint="365" android:textColorHint="@color/text_hint" android:textColor="@color/text_primary"
+                        android:textSize="14sp" android:fontFamily="sans-serif-light" android:inputType="number"
+                        android:background="@drawable/input_underline" android:paddingBottom="4dp" android:gravity="center" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp" android:text="days" android:textSize="13sp"
+                        android:textColor="@color/text_secondary" android:fontFamily="sans-serif-light" />
+                </LinearLayout>
+
+                <!-- Misting -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="18dp">
+                    <TextView android:layout_width="24dp" android:layout_height="wrap_content" android:text="💦" android:textSize="16sp" />
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                        android:text="mist every" android:textSize="13sp" android:textColor="@color/text_secondary"
+                        android:fontFamily="sans-serif-light" android:layout_marginStart="8dp" />
+                    <EditText android:id="@+id/inputMistingInterval" android:layout_width="50dp" android:layout_height="wrap_content"
+                        android:hint="-" android:textColorHint="@color/text_hint" android:textColor="@color/text_primary"
+                        android:textSize="14sp" android:fontFamily="sans-serif-light" android:inputType="number"
+                        android:background="@drawable/input_underline" android:paddingBottom="4dp" android:gravity="center" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp" android:text="days" android:textSize="13sp"
+                        android:textColor="@color/text_secondary" android:fontFamily="sans-serif-light" />
+                </LinearLayout>
+
+                <!-- Rotating -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="horizontal" android:gravity="center_vertical">
+                    <TextView android:layout_width="24dp" android:layout_height="wrap_content" android:text="🔄" android:textSize="16sp" />
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                        android:text="rotate every" android:textSize="13sp" android:textColor="@color/text_secondary"
+                        android:fontFamily="sans-serif-light" android:layout_marginStart="8dp" />
+                    <EditText android:id="@+id/inputRotatingInterval" android:layout_width="50dp" android:layout_height="wrap_content"
+                        android:hint="14" android:textColorHint="@color/text_hint" android:textColor="@color/text_primary"
+                        android:textSize="14sp" android:fontFamily="sans-serif-light" android:inputType="number"
+                        android:background="@drawable/input_underline" android:paddingBottom="4dp" android:gravity="center" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp" android:text="days" android:textSize="13sp"
+                        android:textColor="@color/text_secondary" android:fontFamily="sans-serif-light" />
+                </LinearLayout>
+                <!-- Cleaning -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="horizontal" android:gravity="center_vertical"
+                    android:layout_marginTop="18dp">
+                    <TextView android:layout_width="24dp" android:layout_height="wrap_content"
+                        android:text="🍃" android:textSize="16sp" />
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                        android:layout_weight="1" android:text="clean leaves every"
+                        android:textSize="13sp" android:textColor="@color/text_secondary"
+                        android:fontFamily="sans-serif-light" android:layout_marginStart="8dp" />
+                    <EditText android:id="@+id/inputCleaningInterval"
+                        android:layout_width="50dp" android:layout_height="wrap_content"
+                        android:hint="14" android:textColorHint="@color/text_hint"
+                        android:textColor="@color/text_primary" android:textSize="14sp"
+                        android:fontFamily="sans-serif-light" android:inputType="number"
+                        android:background="@drawable/input_underline" android:paddingBottom="4dp"
+                        android:gravity="center" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp" android:text="days"
+                        android:textSize="13sp" android:textColor="@color/text_secondary"
+                        android:fontFamily="sans-serif-light" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Extra details -->
+        <androidx.cardview.widget.CardView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginBottom="28dp" app:cardCornerRadius="18dp" app:cardElevation="1dp" app:cardBackgroundColor="@color/bg_card">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="vertical" android:padding="20dp">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="more details  ·  optional" android:textSize="10sp" android:textColor="@color/green_muted"
+                    android:fontFamily="sans-serif" android:letterSpacing="0.14" android:textAllCaps="true" android:layout_marginBottom="16dp" />
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="species" android:textSize="10sp" android:textColor="@color/text_hint"
+                    android:fontFamily="sans-serif" android:letterSpacing="0.12" android:textAllCaps="true" android:layout_marginBottom="4dp" />
+                <EditText android:id="@+id/inputSpecies" android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:layout_marginBottom="18dp" android:hint="e.g. Monstera deliciosa"
+                    android:textColorHint="@color/text_hint" android:textColor="@color/text_primary" android:textSize="15sp"
+                    android:fontFamily="sans-serif-light" android:inputType="textCapSentences"
+                    android:background="@drawable/input_underline" android:paddingBottom="6dp" />
+
+                <TextView android:id="@+id/inputLocation"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:layout_marginBottom="18dp"
+                    android:hint="tap to select or add a room"
+                    android:textColor="@color/text_primary" android:textSize="15sp"
+                    android:fontFamily="sans-serif-light"
+                    android:background="@drawable/input_underline" android:paddingBottom="6dp" />
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="light preference" android:textSize="10sp" android:textColor="@color/text_hint"
+                    android:fontFamily="sans-serif" android:letterSpacing="0.12" android:textAllCaps="true"
+                    android:layout_marginBottom="4dp" />
+                <EditText android:id="@+id/inputLightPreference" android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:layout_marginBottom="18dp"
+                    android:hint="e.g. Bright indirect light"
+                    android:textColorHint="@color/text_hint" android:textColor="@color/text_primary"
+                    android:textSize="15sp" android:fontFamily="sans-serif-light"
+                    android:inputType="textCapSentences"
+                    android:background="@drawable/input_underline" android:paddingBottom="6dp" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="temperature preference" android:textSize="10sp"
+                    android:textColor="@color/text_hint" android:fontFamily="sans-serif"
+                    android:letterSpacing="0.12" android:textAllCaps="true"
+                    android:layout_marginBottom="4dp" android:layout_marginTop="2dp" />
+                <EditText android:id="@+id/inputTemperaturePreference"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:layout_marginBottom="18dp"
+                    android:hint="e.g. 18-24°C, avoid cold drafts"
+                    android:textColorHint="@color/text_hint" android:textColor="@color/text_primary"
+                    android:textSize="15sp" android:fontFamily="sans-serif-light"
+                    android:inputType="textCapSentences"
+                    android:background="@drawable/input_underline" android:paddingBottom="6dp" />
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="date acquired" android:textSize="10sp" android:textColor="@color/text_hint"
+                    android:fontFamily="sans-serif" android:letterSpacing="0.12" android:textAllCaps="true" android:layout_marginBottom="4dp" />
+                <TextView android:id="@+id/btnDateAcquired" android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:layout_marginBottom="18dp" android:text="tap to pick a date"
+                    android:textColor="@color/text_hint" android:textSize="15sp" android:fontFamily="sans-serif-light"
+                    android:background="@drawable/input_underline" android:paddingBottom="6dp" />
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="notes" android:textSize="10sp" android:textColor="@color/text_hint"
+                    android:fontFamily="sans-serif" android:letterSpacing="0.12" android:textAllCaps="true" android:layout_marginBottom="4dp" />
+                <EditText android:id="@+id/inputNotes" android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:hint="anything else you want to remember..."
+                    android:textColorHint="@color/text_hint" android:textColor="@color/text_primary" android:textSize="15sp"
+                    android:fontFamily="sans-serif-light" android:inputType="textMultiLine|textCapSentences"
+                    android:minLines="2" android:gravity="top"
+                    android:background="@drawable/input_underline" android:paddingBottom="6dp" />
+                <!-- Pet safe -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="vertical" android:layout_marginTop="18dp">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="pet safe" android:textSize="10sp" android:textColor="@color/text_hint"
+                        android:fontFamily="sans-serif" android:letterSpacing="0.12"
+                        android:textAllCaps="true" android:layout_marginBottom="8dp" />
+                    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <TextView android:id="@+id/petSafeUnknown"
+                            android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:text="unknown" android:textSize="11sp" android:fontFamily="sans-serif-medium"
+                            android:letterSpacing="0.04" android:paddingHorizontal="12dp" android:paddingVertical="5dp"
+                            android:layout_marginEnd="8dp" android:background="@drawable/pill_selected"
+                            android:textColor="#FFFFFF" />
+                        <TextView android:id="@+id/petSafeSafe"
+                            android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:text="🐾 safe" android:textSize="11sp" android:fontFamily="sans-serif-medium"
+                            android:letterSpacing="0.04" android:paddingHorizontal="12dp" android:paddingVertical="5dp"
+                            android:layout_marginEnd="8dp" android:background="@drawable/pill_unselected"
+                            android:textColor="@color/green_muted" />
+                        <TextView android:id="@+id/petSafeToxic"
+                            android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:text="⚠️ toxic" android:textSize="11sp" android:fontFamily="sans-serif-medium"
+                            android:letterSpacing="0.04" android:paddingHorizontal="12dp" android:paddingVertical="5dp"
+                            android:background="@drawable/pill_unselected" android:textColor="@color/green_muted" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+        <!-- Winter schedule card -->
+        <androidx.cardview.widget.CardView android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:layout_marginBottom="16dp"
+            app:cardCornerRadius="18dp" app:cardElevation="1dp"
+            app:cardBackgroundColor="@color/bg_card">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="vertical" android:padding="20dp">
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="winter schedule"
+                    android:textSize="10sp" android:textColor="@color/green_muted"
+                    android:fontFamily="sans-serif" android:letterSpacing="0.14"
+                    android:textAllCaps="true" android:layout_marginBottom="4dp" />
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="Reduced care intervals for the dormant season. Leave blank to use normal schedule."
+                    android:textSize="12sp" android:textColor="@color/text_hint"
+                    android:fontFamily="sans-serif-light" android:lineSpacingMultiplier="1.4"
+                    android:layout_marginBottom="16dp" />
+
+                <!-- Watering -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="horizontal" android:gravity="center_vertical"
+                    android:layout_marginBottom="14dp">
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                        android:layout_weight="1" android:text="💧 water every (days)"
+                        android:textSize="14sp" android:textColor="@color/text_primary"
+                        android:fontFamily="sans-serif-light" />
+                    <EditText android:id="@+id/inputWinterWateringInterval"
+                        android:layout_width="50dp" android:layout_height="wrap_content"
+                        android:inputType="number" android:textSize="14sp"
+                        android:textColor="@color/text_primary" android:fontFamily="sans-serif-light"
+                        android:background="@drawable/input_underline" android:paddingBottom="4dp"
+                        android:gravity="center" android:hint="-"
+                        android:textColorHint="@color/text_hint" />
+                </LinearLayout>
+
+                <!-- Fertilizer -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="horizontal" android:gravity="center_vertical"
+                    android:layout_marginBottom="14dp">
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                        android:layout_weight="1" android:text="🌱 fertilize every (days)"
+                        android:textSize="14sp" android:textColor="@color/text_primary"
+                        android:fontFamily="sans-serif-light" />
+                    <EditText android:id="@+id/inputWinterFertilizerInterval"
+                        android:layout_width="50dp" android:layout_height="wrap_content"
+                        android:inputType="number" android:textSize="14sp"
+                        android:textColor="@color/text_primary" android:fontFamily="sans-serif-light"
+                        android:background="@drawable/input_underline" android:paddingBottom="4dp"
+                        android:gravity="center" android:hint="-"
+                        android:textColorHint="@color/text_hint" />
+                </LinearLayout>
+
+                <!-- Misting -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="horizontal" android:gravity="center_vertical"
+                    android:layout_marginBottom="14dp">
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                        android:layout_weight="1" android:text="💦 mist every (days)"
+                        android:textSize="14sp" android:textColor="@color/text_primary"
+                        android:fontFamily="sans-serif-light" />
+                    <EditText android:id="@+id/inputWinterMistingInterval"
+                        android:layout_width="50dp" android:layout_height="wrap_content"
+                        android:inputType="number" android:textSize="14sp"
+                        android:textColor="@color/text_primary" android:fontFamily="sans-serif-light"
+                        android:background="@drawable/input_underline" android:paddingBottom="4dp"
+                        android:gravity="center" android:hint="-"
+                        android:textColorHint="@color/text_hint" />
+                </LinearLayout>
+
+                <!-- Opt-out toggle -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="horizontal" android:gravity="center_vertical"
+                    android:layout_marginTop="4dp">
+                    <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                        android:layout_weight="1" android:orientation="vertical">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:text="Exclude from seasonal mode"
+                            android:textSize="14sp" android:textColor="@color/text_primary"
+                            android:fontFamily="sans-serif-light" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:text="This plant will always use its normal schedule"
+                            android:textSize="12sp" android:textColor="@color/text_hint"
+                            android:fontFamily="sans-serif-light" android:layout_marginTop="2dp" />
+                    </LinearLayout>
+                    <Switch android:id="@+id/switchWinterDisabled"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+        <TextView android:id="@+id/buttonSave" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="save changes" android:textSize="14sp" android:textColor="#FFFFFF"
+            android:fontFamily="sans-serif-medium" android:letterSpacing="0.08" android:textAllCaps="false"
+            android:gravity="center" android:paddingVertical="16dp" android:background="@drawable/btn_filled_green" />
+
+    </LinearLayout>
+</ScrollView>

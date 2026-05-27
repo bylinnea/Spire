@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Subtitle: fades in after a short delay, so it appears after the title -->
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:duration="800">
+
+    <alpha
+        android:fromAlpha="0.0"
+        android:toAlpha="1.0"
+        android:startOffset="600"
+        android:interpolator="@android:anim/decelerate_interpolator" />
+
+</set>

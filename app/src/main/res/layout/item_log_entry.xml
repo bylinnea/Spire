@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingVertical="14dp"
+    android:paddingHorizontal="2dp"
+    android:gravity="center_vertical"
+    android:background="@color/bg_card">
+
+    <!-- Date -->
+    <TextView
+        android:id="@+id/logDate"
+        android:layout_width="58dp"
+        android:layout_height="wrap_content"
+        android:textSize="10sp"
+        android:textColor="@color/text_hint"
+        android:fontFamily="sans-serif-light"
+        android:lineSpacingMultiplier="1.3"
+        android:gravity="end"
+        android:layout_marginEnd="14dp" />
+
+    <!-- Thin vertical rule -->
+    <View
+        android:layout_width="1dp"
+        android:layout_height="32dp"
+        android:background="@color/green_pale"
+        android:layout_marginEnd="14dp" />
+
+    <!-- Note text -->
+    <TextView
+        android:id="@+id/logNote"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textSize="13sp"
+        android:textColor="@color/text_primary"
+        android:fontFamily="sans-serif-light"
+        android:lineSpacingMultiplier="1.4" />
+
+</LinearLayout>

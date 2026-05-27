@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@color/bg_cream"
+    android:padding="48dp">
+
+    <!-- Leaf icon -->
+    <TextView
+        android:id="@+id/splashIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="🌿"
+        android:textSize="88sp"
+        android:layout_marginBottom="32dp" />
+
+    <!-- App name -->
+    <TextView
+        android:id="@+id/splashTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="spire"
+        android:textSize="38sp"
+        android:textColor="@color/green_deep"
+        android:fontFamily="sans-serif-light"
+        android:letterSpacing="0.08"
+        android:layout_marginBottom="10dp" />
+
+    <!-- Fine divider line -->
+    <View
+        android:layout_width="40dp"
+        android:layout_height="1dp"
+        android:background="@color/green_sage"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Tagline -->
+    <TextView
+        android:id="@+id/splashSubtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="tend your green things"
+        android:textSize="13sp"
+        android:textColor="@color/text_secondary"
+        android:fontFamily="sans-serif-light"
+        android:letterSpacing="0.12" />
+
+</LinearLayout>

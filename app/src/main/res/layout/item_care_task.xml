@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingHorizontal="4dp"
+    android:paddingVertical="14dp"
+    android:gravity="center_vertical">
+
+    <!-- Emoji -->
+    <TextView
+        android:id="@+id/careTaskEmoji"
+        android:layout_width="32dp"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:gravity="center" />
+
+    <!-- Label + last done + next due -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_marginStart="8dp">
+
+        <TextView
+            android:id="@+id/careTaskLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="13sp"
+            android:textColor="@color/text_primary"
+            android:fontFamily="sans-serif-medium" />
+
+        <!-- Last done -->
+        <TextView
+            android:id="@+id/careTaskStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="@color/text_secondary"
+            android:fontFamily="sans-serif-light"
+            android:layout_marginTop="1dp" />
+
+        <!-- Next due -->
+        <TextView
+            android:id="@+id/careTaskNext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="11sp"
+            android:fontFamily="sans-serif-light"
+            android:layout_marginTop="1dp" />
+
+    </LinearLayout>
+
+    <!-- Always-visible mark done / undo -->
+    <TextView
+        android:id="@+id/careTaskBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="mark done"
+        android:textSize="11sp"
+        android:textColor="@color/green_forest"
+        android:fontFamily="sans-serif-medium"
+        android:letterSpacing="0.04"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="5dp"
+        android:background="@drawable/btn_outline_green" />
+
+</LinearLayout>
