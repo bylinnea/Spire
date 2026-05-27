@@ -68,7 +68,7 @@
                     android:layout_marginBottom="16dp" />
 
                 <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-                    android:text="This uses the PlantNet API (free) for plant identification and Claude AI for care recommendations (less than €0.01 per lookup). You'll need API keys from each service."
+                    android:text="This uses the PlantNet API (free) for plant identification and Claude AI for care recommendations (typically less than €0.01 per lookup, billed to your Anthropic account. Check console.anthropic.com for current pricing.). You'll need API keys from each service."
                     android:textSize="13sp" android:textColor="@color/text_hint"
                     android:fontFamily="sans-serif-light" android:lineSpacingMultiplier="1.5"
                     android:layout_marginBottom="16dp" />
