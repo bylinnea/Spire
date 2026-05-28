@@ -42,7 +42,7 @@ AI features in Spire are **completely optional** and disabled by default. If you
 
 ---
 
-## Data we do not collect
+## Data not collected
 
 Spire does not collect:
 
@@ -51,6 +51,23 @@ Spire does not collect:
 - Advertising identifiers
 - Any data that leaves your device without your explicit action
 
+---
+
+## How to delete your data
+ 
+Since all data is stored locally on your device, you are in full control of it.
+ 
+**To delete all your data:**
+ 
+1. Open Spire
+2. Tap the settings icon (⚙) in the top right
+3. Scroll to the bottom to the danger zone section
+4. Tap **delete all data**
+5. Confirm twice — this permanently deletes all plants, care logs, and settings
+Uninstalling the app will also remove all locally stored data from your device.
+ 
+Since Spire does not collect or store any data on external servers, there is no additional deletion request needed.
+ 
 ---
 
 ## Backup files
