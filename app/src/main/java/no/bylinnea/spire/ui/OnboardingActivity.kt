@@ -58,7 +58,7 @@ class OnboardingActivity : AppCompatActivity() {
             // AI stays off but onboarding is not marked complete,
             // so the user can re-run it from Settings to add keys later
             ApiKeyManager.setAiEnabled(this, false)
-            ApiKeyManager.setOnboardingComplete(this, false)
+            ApiKeyManager.setOnboardingComplete(this, true)
             goToMain()
         }
     }
