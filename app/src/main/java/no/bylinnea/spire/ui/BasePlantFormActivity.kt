@@ -126,6 +126,22 @@ abstract class BasePlantFormActivity : BaseActivity() {
     }
 
     protected fun applyAiResult(result: PlantCareService.PlantCareResult) {
+        if (!ApiKeyManager.isAiDisclaimerShown(this)) {
+            showStyledDialog(
+                title        = "a note on AI suggestions",
+                message      = "AI care recommendations are a helpful starting point, not professional advice.\n\nPet safety information in particular may not be accurate — always verify with a vet before introducing plants to pets.",
+                positiveText = "got it",
+                negativeText = ""
+            ) {
+                ApiKeyManager.setAiDisclaimerShown(this)
+                doApplyAiResult(result)
+            }
+            return
+        }
+        doApplyAiResult(result)
+    }
+
+    private fun doApplyAiResult(result: PlantCareService.PlantCareResult) {
         // Use suggested name first, fall back to common name, then scientific name
         val displayName = result.suggestedName ?: result.commonName ?: result.identifiedSpecies
         displayName?.let                     { prefillIfEmpty(R.id.inputPlantName,              it) }

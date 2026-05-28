@@ -29,6 +29,7 @@ object ApiKeyManager {
     private const val KEY_LOG_MIST      = "log_mist"
     private const val KEY_LOG_ROTATE    = "log_rotate"
     private const val KEY_LOG_CLEAN = "log_clean"
+    private const val KEY_AI_DISCLAIMER = "ai_disclaimer_shown"
 
     private fun prefs(context: Context): SharedPreferences =
         context.getSharedPreferences(PLAIN_PREFS_FILE, Context.MODE_PRIVATE)
@@ -117,4 +118,10 @@ object ApiKeyManager {
 
     fun enabledLogTypes(context: Context): List<CareTask.CareType> =
         CareTask.CareType.entries.filter { isLogEnabled(context, it) }
+
+    fun isAiDisclaimerShown(context: Context) =
+        prefs(context).getBoolean(KEY_AI_DISCLAIMER, false)
+
+    fun setAiDisclaimerShown(context: Context) =
+        prefs(context).edit { putBoolean(KEY_AI_DISCLAIMER, true) }
 }

@@ -105,7 +105,7 @@ class PlantDetailActivity : BaseActivity() {
     ) { result ->
         if (result.resultCode == RESULT_OK) {
             val d = result.data ?: return@registerForActivityResult
-            plant = d.getParcelableExtra<Plant>("plant") ?: plant
+            plant = d.getParcelableExtra("plant") ?: plant
             editedPlantIds.add(plant.id)
             thread { db.plantDao().updatePlant(plant) }
             bindPlant()
@@ -168,7 +168,7 @@ class PlantDetailActivity : BaseActivity() {
         db           = PlantDatabase.getDatabase(this)
         plantIds     = intent.getLongArrayExtra("plant_ids") ?: longArrayOf()
         currentIndex = intent.getIntExtra("current_index", 0)
-        plant = intent.getParcelableExtra<Plant>("plant")!!
+        plant = intent.getParcelableExtra("plant")!!
 
         bindPlant()
         setupGestures()
@@ -410,6 +410,8 @@ class PlantDetailActivity : BaseActivity() {
             if (plant.isPetSafe == true) View.VISIBLE else View.GONE
         findViewById<TextView>(R.id.badgeToxic).visibility =
             if (plant.isPetSafe == false) View.VISIBLE else View.GONE
+        findViewById<TextView>(R.id.petSafeDisclaimer).visibility =
+            if (plant.isPetSafe != null) View.VISIBLE else View.GONE
     }
 
     private fun openCareDetail(careType: CareTask.CareType) {

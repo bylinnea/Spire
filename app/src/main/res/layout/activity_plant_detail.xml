@@ -133,6 +133,18 @@
             android:background="@drawable/btn_outline_terracotta"
             android:visibility="gone" />
 
+        <TextView
+            android:id="@+id/petSafeDisclaimer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Pet safety info is AI-generated and may not be accurate."
+            android:textSize="10sp"
+            android:textColor="@color/text_hint"
+            android:fontFamily="sans-serif-light"
+            android:letterSpacing="0.02"
+            android:layout_marginTop="4dp"
+            android:visibility="gone" />
+
         <!-- Care tasks card -->
         <androidx.cardview.widget.CardView android:layout_width="match_parent"
             android:layout_height="wrap_content" android:layout_marginHorizontal="16dp"

@@ -82,6 +82,19 @@ Spire does not knowingly collect data from children under 13. The app does not t
 
 ---
 
+## Accuracy disclaimer
+
+AI-generated content in Spire, including care recommendations, plant identification,
+and pet safety information, is provided as a guide only and may not always be accurate.
+
+- Plant care recommendations should be treated as a starting point, not professional advice
+- Pet safety information is based on AI responses and may be incomplete or incorrect. 
+  Always verify with a veterinarian before introducing plants to pets
+- Plant identification may be incorrect, especially from unclear photos
+
+Spire and its developer are not responsible for any harm resulting from acting on
+AI-generated information in the app.
+
 ## Changes to this policy
 
 If this policy changes, the updated version will be posted at this URL with a new date.
