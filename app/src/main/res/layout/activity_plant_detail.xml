@@ -49,18 +49,31 @@
                 android:paddingHorizontal="12dp" android:paddingVertical="6dp"
                 android:background="@drawable/btn_outline_green" android:layout_marginEnd="10dp" />
             <TextView
-                android:id="@+id/btnMarkDead" android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:text="✝"
-                android:textSize="16sp" android:textColor="@color/green_muted"
-                android:paddingHorizontal="12dp" android:paddingVertical="6dp"
-                android:contentDescription="Mark as dead" />
+                android:id="@+id/btnMarkDead"
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="✝"
+                android:textSize="13sp"
+                android:textColor="@color/text_hint"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="6dp"
+                android:contentDescription="Mark as dead"
+                android:background="@drawable/btn_outline_grey"
+                android:layout_marginEnd="4dp"/>
 
-            <TextView android:id="@+id/btnDelete" android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:text="delete"
-                android:textSize="13sp" android:textColor="@color/status_overdue_dot"
-                android:fontFamily="sans-serif-medium" android:letterSpacing="0.04"
-                android:paddingHorizontal="12dp" android:paddingVertical="6dp"
-                android:background="@drawable/btn_outline_terracotta" />
+            <TextView
+                android:id="@+id/btnDelete"
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="✕"
+                android:textSize="13sp"
+                android:textColor="@color/status_overdue_dot"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="6dp"
+                android:contentDescription="Delete"
+                android:background="@drawable/btn_outline_terracotta"/>
 
         </LinearLayout>
 
