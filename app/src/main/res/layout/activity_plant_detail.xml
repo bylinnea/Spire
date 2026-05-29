@@ -113,7 +113,7 @@
             android:letterSpacing="0.06"
             android:paddingHorizontal="14dp"
             android:paddingVertical="5dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="4dp"
             android:background="@drawable/pill_unselected"
             android:visibility="gone" />
 
@@ -129,7 +129,7 @@
             android:letterSpacing="0.06"
             android:paddingHorizontal="14dp"
             android:paddingVertical="5dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="4dp"
             android:background="@drawable/btn_outline_terracotta"
             android:visibility="gone" />
 
@@ -142,8 +142,10 @@
             android:textColor="@color/text_hint"
             android:fontFamily="sans-serif-light"
             android:letterSpacing="0.02"
-            android:layout_marginTop="4dp"
-            android:visibility="gone" />
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="8dp"
+            android:visibility="gone"
+            android:gravity="center"/>
 
         <!-- Care tasks card -->
         <androidx.cardview.widget.CardView android:layout_width="match_parent"
