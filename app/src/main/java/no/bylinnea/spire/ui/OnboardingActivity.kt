@@ -34,16 +34,20 @@ class OnboardingActivity : AppCompatActivity() {
             val anthropicKey = anthropicInput.text.toString().trim()
             val plantnetKey  = plantnetInput.text.toString().trim()
 
-            if (anthropicKey.isEmpty()) {
-                anthropicInput.error = "Required for care recommendations"
-                return@setOnClickListener
-            }
-            if (!anthropicKey.startsWith("sk-ant-")) {
-                anthropicInput.error = "Anthropic keys start with sk-ant-"
+            // At least one key is required
+            if (anthropicKey.isEmpty() && plantnetKey.isEmpty()) {
+                anthropicInput.error = "Enter at least one API key"
                 return@setOnClickListener
             }
 
-            ApiKeyManager.saveAnthropicKey(this, anthropicKey)
+            if (anthropicKey.isNotEmpty()) {
+                if (!anthropicKey.startsWith("sk-ant-")) {
+                    anthropicInput.error = "Anthropic keys start with sk-ant-"
+                    return@setOnClickListener
+                }
+                ApiKeyManager.saveAnthropicKey(this, anthropicKey)
+            }
+
             if (plantnetKey.isNotEmpty()) {
                 ApiKeyManager.savePlantNetKey(this, plantnetKey)
             }

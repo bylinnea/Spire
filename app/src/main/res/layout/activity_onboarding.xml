@@ -94,7 +94,7 @@
 
                     <!-- Anthropic key -->
                     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                        android:text="anthropic key  ·  required"
+                        android:text="anthropic key  ·  optional"
                         android:textSize="10sp" android:textColor="@color/green_muted"
                         android:fontFamily="sans-serif" android:letterSpacing="0.12"
                         android:textAllCaps="true" android:layout_marginBottom="6dp" />
