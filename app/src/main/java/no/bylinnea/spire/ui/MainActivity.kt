@@ -51,6 +51,7 @@ class MainActivity : BaseActivity() {
     private lateinit var db: PlantDatabase
     private val allPlants = mutableListOf<Plant>()
     private var currentSort = SortOption.NAME
+    private var isFirstResume = true
 
     private fun applySort(sort: SortOption) {
         currentSort = sort
@@ -292,6 +293,7 @@ class MainActivity : BaseActivity() {
 
     override fun onResume() {
         super.onResume()
+        if (isFirstResume) { isFirstResume = false; return }
         thread {
             val plants = db.plantDao().getAllPlants()
             runOnUiThread {
