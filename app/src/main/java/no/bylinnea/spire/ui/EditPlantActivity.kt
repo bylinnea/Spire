@@ -143,6 +143,11 @@ class EditPlantActivity : BasePlantFormActivity() {
         findViewById<Switch>(R.id.switchWinterDisabled).isChecked = plant.winterScheduleDisabled ?: false
 
         petSafeValue   = plant.isPetSafe
+        // Pet safe pill click listeners
+        findViewById<TextView>(R.id.petSafeUnknown).setOnClickListener { petSafeValue = null;  updatePetSafePills() }
+        findViewById<TextView>(R.id.petSafeSafe).setOnClickListener    { petSafeValue = true;  updatePetSafePills() }
+        findViewById<TextView>(R.id.petSafeToxic).setOnClickListener   { petSafeValue = false; updatePetSafePills() }
+        updatePetSafePills()
         wateringTip    = plant.wateringTip
         fertilizingTip = plant.fertilizingTip
         repottingTip   = plant.repottingTip
