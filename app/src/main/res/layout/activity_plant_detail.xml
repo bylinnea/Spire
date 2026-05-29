@@ -905,6 +905,20 @@
                     android:nestedScrollingEnabled="false"
                     android:paddingBottom="12dp" />
 
+                <TextView
+                    android:id="@+id/btnLoadMoreLogs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="load more"
+                    android:textSize="13sp"
+                    android:textColor="@color/green_forest"
+                    android:fontFamily="sans-serif-medium"
+                    android:letterSpacing="0.04"
+                    android:paddingVertical="12dp"
+                    android:gravity="center"
+                    android:layout_gravity="center_horizontal"
+                    android:visibility="gone" />
+
                 <!-- Empty state -->
                 <TextView
                     android:id="@+id/logEmpty"

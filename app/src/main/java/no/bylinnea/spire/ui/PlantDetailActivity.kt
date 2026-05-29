@@ -78,6 +78,9 @@ class PlantDetailActivity : BaseActivity() {
     private var doctorCameraUri: Uri? = null
     private var growthCameraUri: Uri? = null
     private var currentLogFilter = LogFilter.ALL
+    private var logOffset = 0
+    private val logPageSize = 10
+    private var isLoadingMore = false
     private var sensorManager: SensorManager? = null
     private var lightSensor: Sensor? = null
     private var lightSensorListener: SensorEventListener? = null
@@ -266,6 +269,10 @@ class PlantDetailActivity : BaseActivity() {
                     loadLogs()
                 }
             }
+        }
+
+        findViewById<TextView>(R.id.btnLoadMoreLogs).setOnClickListener {
+            loadLogs(append = true)
         }
     }
 
@@ -582,10 +589,10 @@ class PlantDetailActivity : BaseActivity() {
             }
         }
     }
-
-    private fun loadLogs() {
+    private fun loadLogs(append: Boolean = false) {
         val plantId = plant.id
         val filter  = currentLogFilter
+        if (!append) logOffset = 0
         thread {
             val all = db.plantLogDao().getLogsForPlant(plantId)
             val filtered = when (filter) {
@@ -598,10 +605,16 @@ class PlantDetailActivity : BaseActivity() {
                 }
                 else -> filter.prefix?.let { prefix -> all.filter { it.note.startsWith(prefix) } } ?: all
             }
+            val page = filtered.drop(logOffset).take(logPageSize)
+            val hasMore = filtered.size > logOffset + logPageSize
             runOnUiThread {
-                logAdapter.setEntries(filtered)
+                if (append) logAdapter.appendEntries(page)
+                else logAdapter.setEntries(page)
+                logOffset += page.size
                 findViewById<TextView>(R.id.logEmpty).visibility =
                     if (filtered.isEmpty()) View.VISIBLE else View.GONE
+                findViewById<TextView>(R.id.btnLoadMoreLogs).visibility =
+                    if (hasMore) View.VISIBLE else View.GONE
             }
         }
     }

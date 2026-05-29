@@ -54,4 +54,10 @@ class PlantLogAdapter(
         entries.removeAt(position)
         notifyItemRemoved(position)
     }
+
+    fun appendEntries(newEntries: List<PlantLog>) {
+        val start = entries.size
+        entries.addAll(newEntries)
+        notifyItemRangeInserted(start, newEntries.size)
+    }
 }
