@@ -13,6 +13,8 @@ Built in Kotlin for Android 7.0+ (API 24+).
 - Winter/seasonal mode - switch all plants to reduced care schedules at once
 - Overdue dashboard - see at a glance what needs attention
 - Care detail view - full history and tips per care type
+- Skip any care task to reset its reminder without marking it done
+- Health log records every care action automatically; choose which types are shown (hidden types are still kept)
 
 **Plants**
 - Photos with circular crop, camera or gallery
@@ -40,7 +42,7 @@ Built in Kotlin for Android 7.0+ (API 24+).
 **AI features** (optional, requires API keys)
 - Plant identification from photos via PlantNet
 - AI care recommendations per plant via Claude (Anthropic)
-- AI Plant Doctor - describe symptoms and get advice
+- AI Plant Doctor, attach a plant photo and get a diagnosis
 - AI name suggestions in your preferred style
 
 **Other**
@@ -98,7 +100,7 @@ Keys are stored locally in `EncryptedSharedPreferences` and never leave your dev
 
 ## Database
 
-The local SQLite database (`plant_database`) is stored in the app's private data directory. Room migrations cover all schema versions (v1 → v15), so upgrading the app never loses data.
+The local SQLite database (`plant_database`) is stored in the app's private data directory. Room migrations cover all schema versions (v1 → v16), so upgrading the app never loses data.
 
 | Version | Change |
 |---------|--------|
@@ -111,6 +113,7 @@ The local SQLite database (`plant_database`) is stored in the app's private data
 | 7–13 | Cleaning, winter schedules, pet safety, AI tips, rooms, growth photos |
 | 14 | Added `PlantPhoto` table for growth timeline |
 | 15 | Added `diedDate` for graveyard feature |
+| 16 | Added per-care-type skip dates (skip any task, not just repotting) |
 
 ---
 
@@ -141,13 +144,17 @@ app/src/main/java/no/bylinnea/spire/
 │   ├── BasePlantFormActivity.kt  - Shared add/edit logic
 │   ├── PlantAdapter.kt           - Main list adapter
 │   ├── PlantLogAdapter.kt        - Health log adapter
-│   └── GrowthPhotoAdapter.kt     - Growth photo adapter
+│   ├── GrowthPhotoAdapter.kt     - Growth photo adapter
+│   ├── GrowthPhotoSection.kt     - Growth photo strip (extracted from detail)
+│   ├── PlantDoctorSection.kt     - AI plant doctor card (extracted from detail)
+│   ├── LightMeterController.kt   - Light meter card (extracted from detail)
+│   └── SwipeDecorator.kt         - Shared swipe-to-action background drawing
 ├── service/
 │   ├── PlantCareService.kt       - AI care advice (Anthropic)
 │   ├── PlantDoctorService.kt     - AI plant doctor
 │   ├── WateringWorker.kt         - WorkManager notification worker
 │   ├── WateringScheduler.kt      - Schedules daily reminder
-│   ├── SpireWidget.kt         - Home screen widget
+│   ├── SpireWidget.kt            - Home screen widget
 │   └── WidgetUpdater.kt          - Widget refresh logic
 └── util/
     ├── ApiKeyManager.kt          - Encrypted key + prefs storage
