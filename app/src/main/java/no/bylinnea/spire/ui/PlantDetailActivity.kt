@@ -3,10 +3,8 @@ package no.bylinnea.spire.ui
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.DatePickerDialog
-import android.app.Dialog
 import android.content.Intent
 import android.graphics.Canvas
-import android.net.Uri
 import android.os.Bundle
 import android.view.GestureDetector
 import android.view.MotionEvent
@@ -28,15 +26,11 @@ import java.util.Date
 import java.util.Locale
 import kotlin.concurrent.thread
 import kotlin.math.abs
-import android.view.Gravity
 import android.view.animation.AnimationUtils
-import android.widget.FrameLayout
 import android.widget.ScrollView
 import androidx.activity.OnBackPressedCallback
-import androidx.core.content.FileProvider
 import no.bylinnea.spire.util.ApiKeyManager
 import no.bylinnea.spire.util.CareTask
-import no.bylinnea.spire.service.PlantDoctorService
 import no.bylinnea.spire.R
 import no.bylinnea.spire.util.ShareQrHelper
 import no.bylinnea.spire.service.WidgetUpdater
@@ -44,10 +38,8 @@ import no.bylinnea.spire.util.activeWinterAwareTasks
 import no.bylinnea.spire.data.Plant
 import no.bylinnea.spire.data.PlantDatabase
 import no.bylinnea.spire.data.PlantLog
-import no.bylinnea.spire.data.PlantPhoto
 import no.bylinnea.spire.util.markTaskDone
 import no.bylinnea.spire.util.undoTask
-import java.io.File
 import java.util.Calendar
 
 /**
@@ -64,11 +56,9 @@ class PlantDetailActivity : BaseActivity() {
     private lateinit var gestureDetector: GestureDetector
     private lateinit var plantIds: LongArray
     private lateinit var logAdapter: PlantLogAdapter
-    private lateinit var growthPhotoAdapter: GrowthPhotoAdapter
+    private lateinit var doctor: PlantDoctorSection
+    private lateinit var growthPhotos: GrowthPhotoSection
     private var currentIndex     = 0
-    private var doctorPhotoUri: Uri? = null
-    private var doctorCameraUri: Uri? = null
-    private var growthCameraUri: Uri? = null
     private var currentLogFilter = LogFilter.ALL
     private var logOffset = 0
     private val logPageSize = 10
@@ -130,31 +120,27 @@ class PlantDetailActivity : BaseActivity() {
 
     private val doctorCameraLauncher = registerForActivityResult(
         ActivityResultContracts.TakePicture()
-    ) { success ->
-        if (success) doctorCameraUri?.let { setDoctorPhoto(it) }
-    }
+    ) { success -> if (success) doctor.onCameraCaptured() }
 
     private val doctorGalleryLauncher = registerForActivityResult(
         ActivityResultContracts.GetContent()
     ) { uri ->
         uri?.let {
             contentResolver.takePersistableUriPermission(it, Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            setDoctorPhoto(it)
+            doctor.onGalleryPicked(it)
         }
     }
 
     private val growthCameraLauncher = registerForActivityResult(
         ActivityResultContracts.TakePicture()
-    ) { success ->
-        if (success) growthCameraUri?.let { saveGrowthPhoto(it.toString()) }
-    }
+    ) { success -> if (success) growthPhotos.onCameraCaptured() }
 
     private val growthGalleryLauncher = registerForActivityResult(
         ActivityResultContracts.GetContent()
     ) { uri ->
         uri?.let {
             contentResolver.takePersistableUriPermission(it, Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            saveGrowthPhoto(it.toString())
+            growthPhotos.onGalleryPicked(it.toString())
         }
     }
 
@@ -168,11 +154,41 @@ class PlantDetailActivity : BaseActivity() {
         plant = intent.getParcelableExtra("plant")!!
 
         lightMeter = LightMeterController(this)
+        doctor = PlantDoctorSection(
+            activity = this, db = db, plant = { plant },
+            launchCamera = { uri -> doctorCameraLauncher.launch(uri) },
+            launchGallery = { doctorGalleryLauncher.launch("image/*") },
+            onLogChanged = { loadLogs() }
+        )
+        growthPhotos = GrowthPhotoSection(
+            activity = this, db = db, plantId = { plant.id },
+            launchCamera = { uri -> growthCameraLauncher.launch(uri) },
+            launchGallery = { growthGalleryLauncher.launch("image/*") },
+            confirmDelete = { onConfirm ->
+                showStyledDialog(
+                    title        = "delete photo",
+                    message      = "Remove this growth photo? This cannot be undone.",
+                    positiveText = "delete",
+                    negativeText = "cancel",
+                    onPositive   = onConfirm
+                )
+            },
+            chooseSource = { onCamera, onGallery ->
+                showTwoOptionDialog(
+                    title       = "add growth photo",
+                    message     = "Choose how to add a photo to track your plant's growth.",
+                    option1Text = "📷 camera",
+                    option2Text = "🖼️ gallery",
+                    onOption1   = onCamera,
+                    onOption2   = onGallery
+                )
+            }
+        )
 
         bindPlant()
         setupGestures()
         lightMeter.bind(plant)
-        setupGrowthPhotos()
+        growthPhotos.setup()
 
         onBackPressedDispatcher.addCallback(this,
             object : OnBackPressedCallback(true) {
@@ -227,19 +243,7 @@ class PlantDetailActivity : BaseActivity() {
             ShareQrHelper.showShareDialog(this, plant, db)
         }
 
-        if (ApiKeyManager.isAiEnabled(this)) {
-            findViewById<View>(R.id.doctorCard).visibility = View.VISIBLE
-            findViewById<TextView>(R.id.btnDoctorCamera).setOnClickListener {
-                val file = File.createTempFile("doctor_", ".jpg", cacheDir)
-                doctorCameraUri = FileProvider.getUriForFile(
-                    this, "${packageName}.fileprovider", file)
-                doctorCameraLauncher.launch(doctorCameraUri)
-            }
-            findViewById<TextView>(R.id.btnDoctorGallery).setOnClickListener {
-                doctorGalleryLauncher.launch("image/*")
-            }
-            findViewById<TextView>(R.id.btnDiagnose).setOnClickListener { runDiagnosis() }
-        }
+        doctor.setup()
 
         setupLogFilters()
 
@@ -388,7 +392,7 @@ class PlantDetailActivity : BaseActivity() {
                         bindPlant()
                         loadLogs()
                         lightMeter.bind(plant)
-                        setupGrowthPhotos()
+                        growthPhotos.setup()
                     }
                 }
             }
@@ -465,65 +469,6 @@ class PlantDetailActivity : BaseActivity() {
         val row = findViewById<View>(rowId)
         if (value.isNullOrBlank()) row.visibility = View.GONE
         else { row.visibility = View.VISIBLE; findViewById<TextView>(textId).text = value }
-    }
-
-    private fun setDoctorPhoto(uri: Uri) {
-        doctorPhotoUri = uri
-        Glide.with(this).load(uri).circleCrop().into(findViewById(R.id.doctorPhotoPreview))
-        findViewById<TextView>(R.id.btnDiagnose).visibility = View.VISIBLE
-        findViewById<TextView>(R.id.doctorStatus).visibility = View.GONE
-    }
-
-    @SuppressLint("SetTextI18n")
-    private fun runDiagnosis() {
-        val uri         = doctorPhotoUri ?: return
-        val statusView  = findViewById<TextView>(R.id.doctorStatus)
-        val diagnoseBtn = findViewById<TextView>(R.id.btnDiagnose)
-
-        diagnoseBtn.text = "analysing..."; diagnoseBtn.isEnabled = false
-        statusView.visibility = View.VISIBLE
-        statusView.text = "🔍 Looking at your plant..."
-        statusView.setTextColor(ContextCompat.getColor(this, R.color.text_secondary))
-
-        val capturedPlant = plant
-        thread {
-            val result = PlantDoctorService.diagnose(this, uri, capturedPlant)
-            runOnUiThread {
-                diagnoseBtn.text = "diagnose plant"; diagnoseBtn.isEnabled = true
-                if (result.error != null) {
-                    statusView.text = result.error
-                    statusView.setTextColor(ContextCompat.getColor(this, R.color.status_overdue_dot))
-                    return@runOnUiThread
-                }
-                // Strip any markdown formatting Claude may return before displaying
-                val diagnosis = (result.diagnosis ?: "No diagnosis available.")
-                    .lines().joinToString("\n") { line ->
-                        line.replace(Regex("^#+\\s*"), "")
-                            .replace(Regex("\\*\\*(.*?)\\*\\*"), "$1")
-                            .replace(Regex("\\*(.*?)\\*"), "$1")
-                    }.trim()
-                statusView.text = diagnosis
-                statusView.setTextColor(ContextCompat.getColor(this, R.color.text_primary))
-                val capturedPlantId = capturedPlant.id
-                thread {
-                    db.plantLogDao().insertLog(
-                        PlantLog(
-                            plantId = capturedPlantId,
-                            note = "🩺 $diagnosis"
-                        )
-                    )
-                    runOnUiThread { loadLogs() }
-                }
-            }
-        }
-    }
-
-    private fun resetDoctorState() {
-        doctorPhotoUri  = null
-        doctorCameraUri = null
-        findViewById<ImageView?>(R.id.doctorPhotoPreview)?.setImageResource(R.drawable.ic_camera)
-        findViewById<TextView>(R.id.btnDiagnose).visibility = View.GONE
-        findViewById<TextView>(R.id.doctorStatus).apply { visibility = View.GONE; text = "" }
     }
 
     private fun setupLogFilters() {
@@ -787,7 +732,7 @@ class PlantDetailActivity : BaseActivity() {
             next?.let {
                 runOnUiThread {
                     plant = it; currentIndex = wrapped; bindPlant(); loadLogs()
-                    resetDoctorState()
+                    doctor.reset()
                     val scrollView = findViewById<ScrollView>(R.id.detailScrollView)
                     scrollView.scrollTo(0, 0)
                     val anim = if (forward) R.anim.slide_in_bottom else R.anim.slide_in_top
@@ -801,110 +746,5 @@ class PlantDetailActivity : BaseActivity() {
     override fun onPause() {
         super.onPause()
         lightMeter.stop()
-    }
-
-    private fun setupGrowthPhotos() {
-        growthPhotoAdapter = GrowthPhotoAdapter(
-            mutableListOf(),
-            onPhotoTapped = { photo -> showGrowthPhotoFullscreen(photo) },
-            onPhotoLongPressed = { photo ->
-                showStyledDialog(
-                    title        = "delete photo",
-                    message      = "Remove this growth photo? This cannot be undone.",
-                    positiveText = "delete",
-                    negativeText = "cancel"
-                ) {
-                    thread {
-                        db.plantPhotoDao().deletePhoto(photo)
-                        runOnUiThread {
-                            growthPhotoAdapter.removePhoto(photo)
-                            updateGrowthPhotosEmpty()
-                        }
-                    }
-                }
-            }
-        )
-
-        val recycler = findViewById<RecyclerView>(R.id.growthPhotosRecycler)
-        recycler.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        recycler.adapter = growthPhotoAdapter
-
-        loadGrowthPhotos()
-
-        findViewById<TextView>(R.id.btnAddGrowthPhoto).setOnClickListener {
-            showTwoOptionDialog(
-                title       = "add growth photo",
-                message     = "Choose how to add a photo to track your plant's growth.",
-                option1Text = "📷 camera",
-                option2Text = "🖼️ gallery",
-                onOption1   = {
-                    val file = File.createTempFile("growth_", ".jpg", filesDir)
-                    growthCameraUri = FileProvider.getUriForFile(
-                        this, "${packageName}.fileprovider", file)
-                    growthCameraLauncher.launch(growthCameraUri)
-                },
-                onOption2   = { growthGalleryLauncher.launch("image/*") }
-            )
-        }
-    }
-
-    private fun saveGrowthPhoto(uri: String) {
-        thread {
-            val photo = PlantPhoto(plantId = plant.id, photoUri = uri)
-            val id    = db.plantPhotoDao().insertPhoto(photo)
-            val saved = photo.copy(id = id)
-            runOnUiThread {
-                growthPhotoAdapter.addPhoto(saved)
-                findViewById<RecyclerView>(R.id.growthPhotosRecycler).visibility = View.VISIBLE
-                findViewById<TextView>(R.id.growthPhotosEmpty).visibility = View.GONE
-            }
-        }
-    }
-
-    private fun loadGrowthPhotos() {
-        thread {
-            val photos = db.plantPhotoDao().getPhotosForPlant(plant.id)
-            runOnUiThread {
-                growthPhotoAdapter.setPhotos(photos)
-                updateGrowthPhotosEmpty()
-            }
-        }
-    }
-
-    private fun updateGrowthPhotosEmpty() {
-        val hasPhotos = growthPhotoAdapter.itemCount > 0
-        findViewById<RecyclerView>(R.id.growthPhotosRecycler).visibility =
-            if (hasPhotos) View.VISIBLE else View.GONE
-        findViewById<TextView>(R.id.growthPhotosEmpty).visibility =
-            if (hasPhotos) View.GONE else View.VISIBLE
-    }
-
-    private fun showGrowthPhotoFullscreen(photo: PlantPhoto) {
-        val dateFormat = SimpleDateFormat("d MMM yyyy", Locale.getDefault())
-        val dialog = Dialog(this, android.R.style.Theme_Black_NoTitleBar_Fullscreen)
-        dialog.setContentView(FrameLayout(this).apply {
-            val imageView = ImageView(this@PlantDetailActivity).apply {
-                layoutParams = FrameLayout.LayoutParams(
-                    FrameLayout.LayoutParams.MATCH_PARENT,
-                    FrameLayout.LayoutParams.MATCH_PARENT)
-                scaleType = ImageView.ScaleType.FIT_CENTER
-                setBackgroundColor(0xFF000000.toInt())
-            }
-            Glide.with(this@PlantDetailActivity).load(photo.photoUri).into(imageView)
-            addView(imageView)
-            addView(TextView(this@PlantDetailActivity).apply {
-                text = dateFormat.format(Date(photo.timestamp))
-                textSize = 14f
-                setTextColor(0xFFFFFFFF.toInt())
-                setPadding(48, 48, 48, 48)
-                layoutParams = FrameLayout.LayoutParams(
-                    FrameLayout.LayoutParams.WRAP_CONTENT,
-                    FrameLayout.LayoutParams.WRAP_CONTENT).apply {
-                    gravity = Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL
-                }
-            })
-            setOnClickListener { dialog.dismiss() }
-        })
-        dialog.show()
     }
 }
