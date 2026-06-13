@@ -17,6 +17,9 @@ data class Plant(
     val name: String,
     val wateringIntervalDays: Int,
     val lastWateredDate: Long? = null,
+    // Per-care-type "skipped" dates: set when a due task is intentionally
+    // skipped, to reset its reminder timer without recording it as done
+    val lastWaterSkippedDate: Long? = null,
     val photoUri: String? = null,
     val species: String? = null,
     val location: String? = null,
@@ -25,6 +28,7 @@ data class Plant(
 
     val fertilizerIntervalDays: Int? = null,
     val lastFertilizedDate: Long? = null,
+    val lastFertilizeSkippedDate: Long? = null,
     val fertilizerType: String? = null,
 
     val repottingIntervalDays: Int? = null,
@@ -34,12 +38,15 @@ data class Plant(
 
     val mistingIntervalDays: Int? = null,
     val lastMistedDate: Long? = null,
+    val lastMistSkippedDate: Long? = null,
 
     val rotatingIntervalDays: Int? = null,
     val lastRotatedDate: Long? = null,
+    val lastRotateSkippedDate: Long? = null,
 
     val cleaningIntervalDays: Int? = null,
     val lastCleanedDate: Long? = null,
+    val lastCleanSkippedDate: Long? = null,
 
     val temperaturePreference: String? = null,
     val lightPreference: String? = null,

@@ -90,6 +90,11 @@ object BackupHelper {
         plant.repottingIntervalDays?.let  { put("repottingIntervalDays",      it) }
         plant.lastRepottedDate?.let       { put("lastRepottedDate",           it) }
         plant.lastRepotSkippedDate?.let   { put("lastRepotSkippedDate",       it) }
+        plant.lastWaterSkippedDate?.let     { put("lastWaterSkippedDate",       it) }
+        plant.lastFertilizeSkippedDate?.let { put("lastFertilizeSkippedDate",   it) }
+        plant.lastMistSkippedDate?.let      { put("lastMistSkippedDate",        it) }
+        plant.lastRotateSkippedDate?.let    { put("lastRotateSkippedDate",      it) }
+        plant.lastCleanSkippedDate?.let     { put("lastCleanSkippedDate",       it) }
         plant.mistingIntervalDays?.let    { put("mistingIntervalDays",        it) }
         plant.lastMistedDate?.let         { put("lastMistedDate",             it) }
         plant.rotatingIntervalDays?.let   { put("rotatingIntervalDays",       it) }
@@ -138,6 +143,11 @@ object BackupHelper {
         repottingIntervalDays        = j.optInt("repottingIntervalDays",       0).takeIf { it > 0 },
         lastRepottedDate             = j.optLong("lastRepottedDate",           0).takeIf { it > 0 },
         lastRepotSkippedDate         = j.optLong("lastRepotSkippedDate",       0).takeIf { it > 0 },
+        lastWaterSkippedDate         = j.optLong("lastWaterSkippedDate",       0).takeIf { it > 0 },
+        lastFertilizeSkippedDate     = j.optLong("lastFertilizeSkippedDate",   0).takeIf { it > 0 },
+        lastMistSkippedDate          = j.optLong("lastMistSkippedDate",        0).takeIf { it > 0 },
+        lastRotateSkippedDate        = j.optLong("lastRotateSkippedDate",      0).takeIf { it > 0 },
+        lastCleanSkippedDate         = j.optLong("lastCleanSkippedDate",       0).takeIf { it > 0 },
         mistingIntervalDays          = j.optInt("mistingIntervalDays",         0).takeIf { it > 0 },
         lastMistedDate               = j.optLong("lastMistedDate",             0).takeIf { it > 0 },
         rotatingIntervalDays         = j.optInt("rotatingIntervalDays",        0).takeIf { it > 0 },

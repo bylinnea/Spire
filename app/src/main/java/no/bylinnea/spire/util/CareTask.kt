@@ -106,8 +106,10 @@ data class CareTask(
 }
 
 fun Plant.careTasks(): List<CareTask> = listOf(
-    CareTask(CareTask.CareType.WATER,     wateringIntervalDays,    lastWateredDate),
-    CareTask(CareTask.CareType.FERTILIZE, fertilizerIntervalDays,  lastFertilizedDate),
+    CareTask(CareTask.CareType.WATER,     wateringIntervalDays,
+        listOfNotNull(lastWateredDate, lastWaterSkippedDate).maxOrNull()),
+    CareTask(CareTask.CareType.FERTILIZE, fertilizerIntervalDays,
+        listOfNotNull(lastFertilizedDate, lastFertilizeSkippedDate).maxOrNull()),
     run {
         val base = listOfNotNull(lastRepottedDate, lastRepotSkippedDate).maxOrNull()
         val sixtyDaysAgo = System.currentTimeMillis() - 60 * 24 * 60 * 60 * 1000L
@@ -117,9 +119,12 @@ fun Plant.careTasks(): List<CareTask> = listOf(
             dateAcquired + 14 * 24 * 60 * 60 * 1000L else null
         CareTask(CareTask.CareType.REPOT, repottingIntervalDays, base, graceOverride)
     },
-    CareTask(CareTask.CareType.MIST,      mistingIntervalDays,     lastMistedDate),
-    CareTask(CareTask.CareType.ROTATE,    rotatingIntervalDays,    lastRotatedDate),
-    CareTask(CareTask.CareType.CLEAN, cleaningIntervalDays, lastCleanedDate)
+    CareTask(CareTask.CareType.MIST,      mistingIntervalDays,
+        listOfNotNull(lastMistedDate, lastMistSkippedDate).maxOrNull()),
+    CareTask(CareTask.CareType.ROTATE,    rotatingIntervalDays,
+        listOfNotNull(lastRotatedDate, lastRotateSkippedDate).maxOrNull()),
+    CareTask(CareTask.CareType.CLEAN,     cleaningIntervalDays,
+        listOfNotNull(lastCleanedDate, lastCleanSkippedDate).maxOrNull())
 )
 
 fun Plant.activeTasks(): List<CareTask> = careTasks().filter { it.intervalDays != null }
@@ -131,11 +136,11 @@ fun Plant.winterAwareCareTasks(context: Context): List<CareTask> {
         CareTask(CareTask.CareType.WATER,
             if (winterActive && winterWateringIntervalDays != null) winterWateringIntervalDays
             else wateringIntervalDays,
-            lastWateredDate),
+            listOfNotNull(lastWateredDate, lastWaterSkippedDate).maxOrNull()),
         CareTask(CareTask.CareType.FERTILIZE,
             if (winterActive && winterFertilizerIntervalDays != null) winterFertilizerIntervalDays
             else fertilizerIntervalDays,
-            lastFertilizedDate),
+            listOfNotNull(lastFertilizedDate, lastFertilizeSkippedDate).maxOrNull()),
         run {
             val base = listOfNotNull(lastRepottedDate, lastRepotSkippedDate).maxOrNull()
             val sixtyDaysAgo = System.currentTimeMillis() - 60 * 24 * 60 * 60 * 1000L
@@ -146,9 +151,11 @@ fun Plant.winterAwareCareTasks(context: Context): List<CareTask> {
         CareTask(CareTask.CareType.MIST,
             if (winterActive && winterMistingIntervalDays != null) winterMistingIntervalDays
             else mistingIntervalDays,
-            lastMistedDate),
-        CareTask(CareTask.CareType.ROTATE,    rotatingIntervalDays,   lastRotatedDate),
-                CareTask(CareTask.CareType.CLEAN, cleaningIntervalDays, lastCleanedDate)
+            listOfNotNull(lastMistedDate, lastMistSkippedDate).maxOrNull()),
+        CareTask(CareTask.CareType.ROTATE,    rotatingIntervalDays,
+            listOfNotNull(lastRotatedDate, lastRotateSkippedDate).maxOrNull()),
+        CareTask(CareTask.CareType.CLEAN,     cleaningIntervalDays,
+            listOfNotNull(lastCleanedDate, lastCleanSkippedDate).maxOrNull())
     )
 }
 
@@ -176,4 +183,16 @@ fun Plant.undoTask(type: CareTask.CareType, previousDate: Long? = null): Plant =
     CareTask.CareType.MIST      -> copy(lastMistedDate     = previousDate)
     CareTask.CareType.ROTATE    -> copy(lastRotatedDate    = previousDate)
     CareTask.CareType.CLEAN     -> copy(lastCleanedDate    = previousDate)
+}
+
+fun Plant.markTaskSkipped(type: CareTask.CareType): Plant {
+    val now = System.currentTimeMillis()
+    return when (type) {
+        CareTask.CareType.WATER     -> copy(lastWaterSkippedDate     = now)
+        CareTask.CareType.FERTILIZE -> copy(lastFertilizeSkippedDate = now)
+        CareTask.CareType.REPOT     -> copy(lastRepotSkippedDate     = now)
+        CareTask.CareType.MIST      -> copy(lastMistSkippedDate      = now)
+        CareTask.CareType.ROTATE    -> copy(lastRotateSkippedDate    = now)
+        CareTask.CareType.CLEAN     -> copy(lastCleanSkippedDate     = now)
+    }
 }

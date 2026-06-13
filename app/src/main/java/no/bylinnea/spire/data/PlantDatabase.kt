@@ -13,7 +13,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
  * Use [getDatabase] everywhere in the app. Use [getWidgetDatabase] only from
  * the home screen widget, which runs on the main thread.
  */
-@Database(entities = [Plant::class, PlantLog::class, PlantPhoto::class], version = 15, exportSchema = false)
+@Database(entities = [Plant::class, PlantLog::class, PlantPhoto::class], version = 16, exportSchema = false)
 abstract class PlantDatabase : RoomDatabase() {
 
     abstract fun plantDao(): PlantDao
@@ -132,6 +132,15 @@ abstract class PlantDatabase : RoomDatabase() {
                 db.execSQL("ALTER TABLE plants ADD COLUMN diedDate INTEGER DEFAULT NULL")
             }
         }
+        private val MIGRATION_15_16 = object : Migration(15, 16) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("ALTER TABLE plants ADD COLUMN lastWaterSkippedDate INTEGER DEFAULT NULL")
+                db.execSQL("ALTER TABLE plants ADD COLUMN lastFertilizeSkippedDate INTEGER DEFAULT NULL")
+                db.execSQL("ALTER TABLE plants ADD COLUMN lastMistSkippedDate INTEGER DEFAULT NULL")
+                db.execSQL("ALTER TABLE plants ADD COLUMN lastRotateSkippedDate INTEGER DEFAULT NULL")
+                db.execSQL("ALTER TABLE plants ADD COLUMN lastCleanSkippedDate INTEGER DEFAULT NULL")
+            }
+        }
 
         /** Returns the singleton database instance for normal app use. */
         fun getDatabase(context: Context): PlantDatabase {
@@ -146,7 +155,7 @@ abstract class PlantDatabase : RoomDatabase() {
                         MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7,
                         MIGRATION_7_8, MIGRATION_8_9, MIGRATION_9_10,
                         MIGRATION_10_11, MIGRATION_11_12, MIGRATION_12_13,
-                        MIGRATION_13_14, MIGRATION_14_15
+                        MIGRATION_13_14, MIGRATION_14_15, MIGRATION_15_16
                     )
                     .build().also { INSTANCE = it }
             }
@@ -168,7 +177,7 @@ abstract class PlantDatabase : RoomDatabase() {
                     MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7,
                     MIGRATION_7_8, MIGRATION_8_9, MIGRATION_9_10,
                     MIGRATION_10_11, MIGRATION_11_12, MIGRATION_12_13,
-                    MIGRATION_13_14, MIGRATION_14_15
+                    MIGRATION_13_14, MIGRATION_14_15, MIGRATION_15_16
                 )
                 .build()
         }

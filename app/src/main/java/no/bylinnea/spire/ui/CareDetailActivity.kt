@@ -31,6 +31,7 @@ import no.bylinnea.spire.data.PlantDatabase
 import no.bylinnea.spire.data.PlantLog
 import no.bylinnea.spire.util.markTaskDone
 import no.bylinnea.spire.util.undoTask
+import no.bylinnea.spire.util.markTaskSkipped
 import java.util.Calendar
 import java.util.concurrent.TimeUnit
 import kotlin.math.abs
@@ -57,7 +58,12 @@ class CareDetailActivity : AppCompatActivity() {
     private var lastMisted:       Long? = null
     private var lastRotated:      Long? = null
     private var lastCleaned:      Long? = null
-    private var lastRepotSkipped: Long? = null
+    private var lastRepotSkipped:    Long? = null
+    private var lastWaterSkipped:    Long? = null
+    private var lastFertilizeSkipped: Long? = null
+    private var lastMistSkipped:     Long? = null
+    private var lastRotateSkipped:   Long? = null
+    private var lastCleanSkipped:    Long? = null
 
     companion object {
         // Used by PlantDetailActivity to pass the pre-mark-done date when navigating here
@@ -96,7 +102,12 @@ class CareDetailActivity : AppCompatActivity() {
         lastMisted       = intent.getLongExtra("last_misted",        0L).takeIf { it > 0 }
         lastRotated      = intent.getLongExtra("last_rotated",       0L).takeIf { it > 0 }
         lastCleaned      = intent.getLongExtra("last_cleaned",       0L).takeIf { it > 0 }
-        lastRepotSkipped = intent.getLongExtra("last_repot_skipped", 0L).takeIf { it > 0 }
+        lastRepotSkipped    = intent.getLongExtra("last_repot_skipped",    0L).takeIf { it > 0 }
+        lastWaterSkipped    = intent.getLongExtra("last_water_skipped",    0L).takeIf { it > 0 }
+        lastFertilizeSkipped = intent.getLongExtra("last_fertilize_skipped", 0L).takeIf { it > 0 }
+        lastMistSkipped     = intent.getLongExtra("last_mist_skipped",     0L).takeIf { it > 0 }
+        lastRotateSkipped   = intent.getLongExtra("last_rotate_skipped",   0L).takeIf { it > 0 }
+        lastCleanSkipped    = intent.getLongExtra("last_clean_skipped",    0L).takeIf { it > 0 }
 
         // If PlantDetailActivity already marked this task done and stored the previous date,
         // use that. Otherwise derive it from the last done date, unless it was done today.
@@ -140,6 +151,7 @@ class CareDetailActivity : AppCompatActivity() {
         setupGestures()
         setupFertilizerCalculator()
         setupRepottingCalculator()
+        setupSkipButton()
         setupMarkDone()
 
         onBackPressedDispatcher.addCallback(this,
@@ -255,6 +267,7 @@ class CareDetailActivity : AppCompatActivity() {
             reloadLogs()
             setupFertilizerCalculator()
             setupRepottingCalculator()
+            setupSkipButton()
             setupMarkDone()
         }, 120)
     }
@@ -269,12 +282,12 @@ class CareDetailActivity : AppCompatActivity() {
             CareTask.CareType.CLEAN     -> intent.getIntExtra("cleaning_interval", 0).takeIf { it > 0 }
         }
         val lastDoneMs = when (careType) {
-            CareTask.CareType.WATER     -> lastWatered
-            CareTask.CareType.FERTILIZE -> lastFertilized
+            CareTask.CareType.WATER     -> listOfNotNull(lastWatered, lastWaterSkipped).maxOrNull()
+            CareTask.CareType.FERTILIZE -> listOfNotNull(lastFertilized, lastFertilizeSkipped).maxOrNull()
             CareTask.CareType.REPOT     -> listOfNotNull(lastRepotted, lastRepotSkipped).maxOrNull()
-            CareTask.CareType.MIST      -> lastMisted
-            CareTask.CareType.ROTATE    -> lastRotated
-            CareTask.CareType.CLEAN     -> lastCleaned
+            CareTask.CareType.MIST      -> listOfNotNull(lastMisted, lastMistSkipped).maxOrNull()
+            CareTask.CareType.ROTATE    -> listOfNotNull(lastRotated, lastRotateSkipped).maxOrNull()
+            CareTask.CareType.CLEAN     -> listOfNotNull(lastCleaned, lastCleanSkipped).maxOrNull()
         }
         bindScheduleFromValues(intervalDays, lastDoneMs)
     }
@@ -531,18 +544,15 @@ class CareDetailActivity : AppCompatActivity() {
         val inputs    = findViewById<View>(R.id.repotCalcInputs)
         val result    = findViewById<TextView>(R.id.repotCalcResult)
         val unitLabel = findViewById<TextView>(R.id.repotCalcUnitLabel)
-        val skipBtn   = findViewById<TextView>(R.id.btnSkipRepot)
 
         if (careType != CareTask.CareType.REPOT) {
             trigger.visibility = View.GONE
             inputs.visibility  = View.GONE
-            skipBtn.visibility = View.GONE
             return
         }
 
         unitLabel.text     = "cm"
         trigger.visibility = View.VISIBLE
-        skipBtn.visibility = View.VISIBLE
 
         trigger.setOnClickListener {
             val expanding = inputs.visibility != View.VISIBLE
@@ -568,11 +578,51 @@ class CareDetailActivity : AppCompatActivity() {
                 }
             })
 
+    }
+
+    private fun currentIntervalDays(): Int = when (careType) {
+        CareTask.CareType.WATER     -> intent.getIntExtra("watering_interval",   0)
+        CareTask.CareType.FERTILIZE -> intent.getIntExtra("fertilizer_interval", 0)
+        CareTask.CareType.REPOT     -> intent.getIntExtra("repotting_interval",  0)
+        CareTask.CareType.MIST      -> intent.getIntExtra("misting_interval",    0)
+        CareTask.CareType.ROTATE    -> intent.getIntExtra("rotating_interval",   0)
+        CareTask.CareType.CLEAN     -> intent.getIntExtra("cleaning_interval",   0)
+    }
+
+    private fun skipNote(type: CareTask.CareType): String = when (type) {
+        CareTask.CareType.WATER     -> "💧 Watering skipped"
+        CareTask.CareType.FERTILIZE -> "🌱 Fertilizing skipped"
+        CareTask.CareType.REPOT     -> "🪴 Repotting skipped"
+        CareTask.CareType.MIST      -> "💦 Misting skipped"
+        CareTask.CareType.ROTATE    -> "🔄 Rotation skipped"
+        CareTask.CareType.CLEAN     -> "🍃 Cleaning skipped"
+    }
+
+    // Locally mirror a skip so the schedule on this screen updates without a reload
+    private fun rememberSkipLocally(type: CareTask.CareType, now: Long) {
+        when (type) {
+            CareTask.CareType.WATER     -> lastWaterSkipped     = now
+            CareTask.CareType.FERTILIZE -> lastFertilizeSkipped = now
+            CareTask.CareType.REPOT     -> lastRepotSkipped     = now
+            CareTask.CareType.MIST      -> lastMistSkipped      = now
+            CareTask.CareType.ROTATE    -> lastRotateSkipped    = now
+            CareTask.CareType.CLEAN     -> lastCleanSkipped     = now
+        }
+    }
+
+    // Skip is available for every care type: it resets the reminder timer by one
+    // interval and logs a "skipped" entry, without recording the task as done.
+    private fun setupSkipButton() {
+        val skipBtn = findViewById<TextView>(R.id.btnSkipRepot)
+        skipBtn.visibility = View.VISIBLE
+        skipBtn.text = "skip this time"
+
         skipBtn.setOnClickListener {
+            val interval = currentIntervalDays()
             val view = layoutInflater.inflate(R.layout.dialog_share_options, null)
-            view.findViewById<TextView>(R.id.shareTitle).text = "skip repotting"
+            view.findViewById<TextView>(R.id.shareTitle).text = "skip ${careType.label}"
             view.findViewById<TextView>(R.id.btnInfoOnly).apply {
-                text = "skip - remind me again in ${intent.getIntExtra("repotting_interval", 0)} days"
+                text = if (interval > 0) "skip - remind me again in $interval days" else "skip for now"
                 setTextColor(ContextCompat.getColor(this@CareDetailActivity, R.color.status_overdue_dot))
                 background = ContextCompat.getDrawable(this@CareDetailActivity, R.drawable.btn_outline_terracotta)
             }
@@ -589,14 +639,19 @@ class CareDetailActivity : AppCompatActivity() {
                 thread {
                     val now   = System.currentTimeMillis()
                     val plant = db.plantDao().getPlantById(currentPlantId) ?: return@thread
-                    db.plantDao().updatePlant(plant.copy(lastRepotSkippedDate = now))
+                    db.plantDao().updatePlant(plant.markTaskSkipped(careType))
                     db.plantLogDao().insertLog(
-                        PlantLog(
-                            plantId = currentPlantId,
-                            note = "🪴 Repotting skipped"
-                        )
+                        PlantLog(plantId = currentPlantId, note = skipNote(careType))
                     )
-                    runOnUiThread { bindSchedule(careType); reloadLogs() }
+                    runOnUiThread {
+                        rememberSkipLocally(careType, now)
+                        bindSchedule(careType)
+                        reloadLogs()
+                        setResult(RESULT_OK, Intent().apply {
+                            putExtra("action", "updated")
+                            putExtra("plant_id", currentPlantId)
+                        })
+                    }
                 }
             }
             view.findViewById<TextView>(R.id.btnWithLogs).setOnClickListener { dialog.dismiss() }

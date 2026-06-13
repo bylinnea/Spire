@@ -441,7 +441,12 @@ class PlantDetailActivity : BaseActivity() {
             plant.lastRotatedDate?.let        { putExtra("last_rotated",              it) }
             plant.cleaningIntervalDays?.let   { putExtra("cleaning_interval",         it) }
             plant.lastCleanedDate?.let        { putExtra("last_cleaned",              it) }
-            plant.lastRepotSkippedDate?.let   { putExtra("last_repot_skipped",        it) }
+            plant.lastRepotSkippedDate?.let     { putExtra("last_repot_skipped",     it) }
+            plant.lastWaterSkippedDate?.let     { putExtra("last_water_skipped",     it) }
+            plant.lastFertilizeSkippedDate?.let { putExtra("last_fertilize_skipped", it) }
+            plant.lastMistSkippedDate?.let      { putExtra("last_mist_skipped",      it) }
+            plant.lastRotateSkippedDate?.let    { putExtra("last_rotate_skipped",    it) }
+            plant.lastCleanSkippedDate?.let     { putExtra("last_clean_skipped",     it) }
             plant.wateringTip?.let            { putExtra("watering_tip",              it) }
             plant.fertilizingTip?.let         { putExtra("fertilizing_tip",           it) }
             plant.repottingTip?.let           { putExtra("repotting_tip",             it) }
@@ -601,7 +606,7 @@ class PlantDetailActivity : BaseActivity() {
         thread {
             val all = db.plantLogDao().getLogsForPlant(plantId)
             // Every care event is always saved; the Settings toggles decide which
-            // care types are visible. Notes and diagnoses are always shown.
+            // care types are visible here. Notes and diagnoses are always shown.
             val visiblePrefixes = ApiKeyManager.enabledLogTypes(this).map { careLogPrefix(it) }
             val filtered = when (filter) {
                 LogFilter.ALL -> all.filter { entry ->
