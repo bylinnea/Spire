@@ -273,13 +273,13 @@
                 android:orientation="vertical" android:padding="20dp">
 
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:text="health log  ·  auto-log events"
+                    android:text="health log  ·  visible events"
                     android:textSize="10sp" android:textColor="@color/green_muted"
                     android:fontFamily="sans-serif" android:letterSpacing="0.14"
                     android:textAllCaps="true" android:layout_marginBottom="4dp" />
 
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:text="Choose which care events are automatically added to the health log"
+                    android:text="All care actions are saved. Choose which ones appear in the health log — hidden types are still kept for stats."
                     android:textSize="12sp" android:textColor="@color/text_hint"
                     android:fontFamily="sans-serif-light" android:lineSpacingMultiplier="1.4"
                     android:layout_marginBottom="16dp" />

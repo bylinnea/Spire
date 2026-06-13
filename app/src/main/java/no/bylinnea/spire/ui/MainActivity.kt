@@ -321,7 +321,7 @@ class MainActivity : BaseActivity() {
         else plant.copy(lastWateredDate = System.currentTimeMillis())
         thread {
             db.plantDao().updatePlant(updated)
-            if (!isToday && ApiKeyManager.isLogEnabled(this, CareTask.CareType.WATER)) {
+            if (!isToday) {
                 db.plantLogDao().insertLog(PlantLog(plantId = plant.id, note = "💧 Watered"))
             }
             WidgetUpdater.update(this)
@@ -416,9 +416,7 @@ class MainActivity : BaseActivity() {
                     db.plantDao().updatePlant(updated)
                     val idx = allPlants.indexOfFirst { it.id == plant.id }
                     if (idx >= 0) allPlants[idx] = updated
-                    if (ApiKeyManager.isLogEnabled(this, CareTask.CareType.WATER)) {
-                        db.plantLogDao().insertLog(PlantLog(plantId = plant.id, note = "💧 Watered"))
-                    }
+                    db.plantLogDao().insertLog(PlantLog(plantId = plant.id, note = "💧 Watered"))
                 }
                 runOnUiThread {
                     WidgetUpdater.update(this)

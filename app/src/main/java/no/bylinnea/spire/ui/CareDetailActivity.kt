@@ -245,7 +245,7 @@ class CareDetailActivity : AppCompatActivity() {
         scrollView.scrollTo(0, 0)
         scrollView.startAnimation(
             AnimationUtils.loadAnimation(
-            this, if (forward) R.anim.slide_in_bottom else R.anim.slide_in_top))
+                this, if (forward) R.anim.slide_in_bottom else R.anim.slide_in_top))
 
         scrollView.postDelayed({
             findViewById<TextView>(R.id.careDetailTitle).text =
@@ -440,7 +440,7 @@ class CareDetailActivity : AppCompatActivity() {
                 else plant.markTaskDone(careType)
                 db.plantDao().updatePlant(updated)
 
-                if (!wasDoneToday && ApiKeyManager.isLogEnabled(this, careType)) {
+                if (!wasDoneToday) {
                     val note = when (careType) {
                         CareTask.CareType.WATER     -> "💧 Watered"
                         CareTask.CareType.FERTILIZE -> "🌱 Fertilized"

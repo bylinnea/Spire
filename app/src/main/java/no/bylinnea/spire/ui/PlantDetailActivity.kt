@@ -73,6 +73,10 @@ class PlantDetailActivity : BaseActivity() {
     private var logOffset = 0
     private val logPageSize = 10
     private var isLoadingMore = false
+    // Emoji prefixes written by auto-logged care events. Anything not starting
+    // with one of these is a manual note or an AI diagnosis (🩺), which are
+    // always visible regardless of the Settings toggles.
+    private val careLogPrefixes = listOf("💧", "🌱", "🪴", "💦", "🔄", "🍃")
     private lateinit var lightMeter: LightMeterController
     // Tracks all plants edited during this session (via care buttons or swipe navigation)
     // so MainActivity can reload only the affected plants when we return
@@ -362,7 +366,7 @@ class PlantDetailActivity : BaseActivity() {
                 val capturedPlantId = plant.id
                 thread {
                     db.plantDao().updatePlant(plant)
-                    if (!wasDoneToday && ApiKeyManager.isLogEnabled(this, task.type)) {
+                    if (!wasDoneToday) {
                         val autoLogNote = when (task.type) {
                             CareTask.CareType.WATER     -> "💧 Watered"
                             CareTask.CareType.FERTILIZE -> "🌱 Fertilized"
@@ -581,19 +585,34 @@ class PlantDetailActivity : BaseActivity() {
             }
         }
     }
+    private fun careLogPrefix(type: CareTask.CareType): String = when (type) {
+        CareTask.CareType.WATER     -> "💧"
+        CareTask.CareType.FERTILIZE -> "🌱"
+        CareTask.CareType.REPOT     -> "🪴"
+        CareTask.CareType.MIST      -> "💦"
+        CareTask.CareType.ROTATE    -> "🔄"
+        CareTask.CareType.CLEAN     -> "🍃"
+    }
+
     private fun loadLogs(append: Boolean = false) {
         val plantId = plant.id
         val filter  = currentLogFilter
         if (!append) logOffset = 0
         thread {
             val all = db.plantLogDao().getLogsForPlant(plantId)
+            // Every care event is always saved; the Settings toggles decide which
+            // care types are visible. Notes and diagnoses are always shown.
+            val visiblePrefixes = ApiKeyManager.enabledLogTypes(this).map { careLogPrefix(it) }
             val filtered = when (filter) {
-                LogFilter.ALL   -> all
-                // Notes filter excludes all auto-logged care events, showing only manual entries
+                LogFilter.ALL -> all.filter { entry ->
+                    val isCareLog = careLogPrefixes.any { entry.note.startsWith(it) }
+                    !isCareLog || visiblePrefixes.any { entry.note.startsWith(it) }
+                }
+                // Notes filter excludes all auto-logged care events and diagnoses,
+                // leaving only manually written entries
                 LogFilter.NOTES -> all.filter { entry ->
-                    !entry.note.startsWith("🩺") && !entry.note.startsWith("💧") &&
-                            !entry.note.startsWith("🌱") && !entry.note.startsWith("🪴") &&
-                            !entry.note.startsWith("🌫") && !entry.note.startsWith("🔄")
+                    !entry.note.startsWith("🩺") &&
+                            careLogPrefixes.none { entry.note.startsWith(it) }
                 }
                 else -> filter.prefix?.let { prefix -> all.filter { it.note.startsWith(prefix) } } ?: all
             }
