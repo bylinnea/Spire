@@ -78,7 +78,7 @@ class MainActivity : BaseActivity() {
         val raw = result.contents ?: return@registerForActivityResult
         val parsed = PlantShareHelper.fromJson(raw)
         if (parsed == null) {
-            Toast.makeText(this, "Not a valid Plant Mom QR code", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Not a valid Spire QR code", Toast.LENGTH_SHORT).show()
             return@registerForActivityResult
         }
         val (plant, logs) = parsed
@@ -94,7 +94,7 @@ class MainActivity : BaseActivity() {
                     }
                     db.plantLogDao().insertLog(
                         // Record that this plant was imported via QR rather than added manually
-                        PlantLog(plantId = id, note = "📱 Imported into Plant Mom")
+                        PlantLog(plantId = id, note = "📱 Imported into Spire")
                     )
                     runOnUiThread {
                         allPlants.add(saved)
@@ -271,7 +271,7 @@ class MainActivity : BaseActivity() {
             .setOnClickListener {
                 collapseFab()
                 scanLauncher.launch(ScanOptions().apply {
-                    setPrompt("Scan a Plant Mom QR code")
+                    setPrompt("Scan a Spire QR code")
                     setBeepEnabled(false)
                     setOrientationLocked(false)
                 })
@@ -325,6 +325,9 @@ class MainActivity : BaseActivity() {
         else plant.copy(lastWateredDate = System.currentTimeMillis())
         thread {
             db.plantDao().updatePlant(updated)
+            if (!isToday && ApiKeyManager.isLogEnabled(this, CareTask.CareType.WATER)) {
+                db.plantLogDao().insertLog(PlantLog(plantId = plant.id, note = "💧 Watered"))
+            }
             WidgetUpdater.update(this)
             runOnUiThread {
                 val i = allPlants.indexOfFirst { it.id == updated.id }

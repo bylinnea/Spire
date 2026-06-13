@@ -56,7 +56,7 @@ class SettingsActivity : BaseActivity() {
             } catch (e: Exception) {
                 runOnUiThread {
                     showStyledDialog("import failed",
-                        "Could not read the file. Make sure it's a Plant Mom backup.",
+                        "Could not read the file. Make sure it is a Spire backup.",
                         "ok") {}
                 }
             }
