@@ -5,9 +5,6 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -23,7 +20,6 @@ import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanOptions
 import java.util.concurrent.TimeUnit
 import kotlin.concurrent.thread
-import kotlin.math.abs
 import androidx.core.graphics.toColorInt
 import no.bylinnea.spire.util.ApiKeyManager
 import no.bylinnea.spire.util.CareTask
@@ -379,20 +375,12 @@ class MainActivity : BaseActivity() {
 
             override fun onChildDraw(c: Canvas, rv: RecyclerView, vh: RecyclerView.ViewHolder,
                                      dX: Float, dY: Float, state: Int, active: Boolean) {
-                val item  = vh.itemView
-                val paint = Paint()
-                val alpha = (abs(dX) / (item.width * 0.35f)).coerceIn(0f, 1f)
-                if (dX < 0) {
-                    paint.color = "#C0705A".toColorInt(); paint.alpha = (alpha * 255).toInt()
-                    c.drawRoundRect(item.right + dX, item.top.toFloat(), item.right.toFloat(), item.bottom.toFloat(), 32f, 32f, paint)
-                    val tp = Paint().apply { color = Color.WHITE; this.alpha = (alpha * 255).toInt(); textSize = 36f; typeface = Typeface.create("sans-serif", Typeface.NORMAL); isAntiAlias = true }
-                    c.drawText("graveyard", item.right - tp.measureText("graveyard") - 32f, item.top + item.height / 2f + tp.textSize / 3f, tp)
-                } else if (dX > 0) {
-                    paint.color = "#3D6B3D".toColorInt(); paint.alpha = (alpha * 255).toInt()
-                    c.drawRoundRect(item.left.toFloat(), item.top.toFloat(), item.left + dX, item.bottom.toFloat(),32f, 32f, paint)
-                    val tp = Paint().apply { color = Color.WHITE; this.alpha = (alpha * 255).toInt(); textSize = 36f; typeface = Typeface.create("sans-serif", Typeface.NORMAL); isAntiAlias = true }
-                    c.drawText("edit", item.left + 32f, item.top + item.height / 2f + tp.textSize / 3f, tp)
-                }
+                SwipeDecorator.draw(
+                    c, vh.itemView, dX,
+                    leftColor = "#C0705A", leftLabel = "graveyard",
+                    rightColor = "#3D6B3D", rightLabel = "edit",
+                    cornerRadius = 32f, textSize = 36f
+                )
                 super.onChildDraw(c, rv, vh, dX, dY, state, active)
             }
         }

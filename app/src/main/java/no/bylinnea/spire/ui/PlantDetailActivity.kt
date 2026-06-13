@@ -6,9 +6,6 @@ import android.app.DatePickerDialog
 import android.app.Dialog
 import android.content.Intent
 import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.Typeface
 import android.net.Uri
 import android.os.Bundle
 import android.view.GestureDetector
@@ -21,7 +18,6 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
-import androidx.core.graphics.toColorInt
 import androidx.core.net.toUri
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -32,10 +28,6 @@ import java.util.Date
 import java.util.Locale
 import kotlin.concurrent.thread
 import kotlin.math.abs
-import android.hardware.Sensor
-import android.hardware.SensorEvent
-import android.hardware.SensorEventListener
-import android.hardware.SensorManager
 import android.view.Gravity
 import android.view.animation.AnimationUtils
 import android.widget.FrameLayout
@@ -81,9 +73,7 @@ class PlantDetailActivity : BaseActivity() {
     private var logOffset = 0
     private val logPageSize = 10
     private var isLoadingMore = false
-    private var sensorManager: SensorManager? = null
-    private var lightSensor: Sensor? = null
-    private var lightSensorListener: SensorEventListener? = null
+    private lateinit var lightMeter: LightMeterController
     // Tracks all plants edited during this session (via care buttons or swipe navigation)
     // so MainActivity can reload only the affected plants when we return
     private val editedPlantIds = mutableSetOf<Long>()
@@ -173,9 +163,11 @@ class PlantDetailActivity : BaseActivity() {
         currentIndex = intent.getIntExtra("current_index", 0)
         plant = intent.getParcelableExtra("plant")!!
 
+        lightMeter = LightMeterController(this)
+
         bindPlant()
         setupGestures()
-        setupLightMeter()
+        lightMeter.bind(plant)
         setupGrowthPhotos()
 
         onBackPressedDispatcher.addCallback(this,
@@ -391,7 +383,7 @@ class PlantDetailActivity : BaseActivity() {
                         editedPlantIds.add(plant.id)
                         bindPlant()
                         loadLogs()
-                        setupLightMeter()
+                        lightMeter.bind(plant)
                         setupGrowthPhotos()
                     }
                 }
@@ -689,20 +681,12 @@ class PlantDetailActivity : BaseActivity() {
 
             override fun onChildDraw(c: Canvas, rv: RecyclerView, vh: RecyclerView.ViewHolder,
                                      dX: Float, dY: Float, state: Int, active: Boolean) {
-                val item  = vh.itemView
-                val paint = Paint()
-                val alpha = (abs(dX) / (item.width * 0.35f)).coerceIn(0f, 1f)
-                if (dX < 0) {
-                    paint.color = "#C0705A".toColorInt(); paint.alpha = (alpha * 255).toInt()
-                    c.drawRect(item.right + dX, item.top.toFloat(), item.right.toFloat(), item.bottom.toFloat(), paint)
-                    val tp = Paint().apply { color = Color.WHITE; this.alpha = (alpha * 255).toInt(); textSize = 32f; typeface = Typeface.create("sans-serif", Typeface.NORMAL); isAntiAlias = true }
-                    c.drawText("delete", item.right - tp.measureText("delete") - 28f, item.top + item.height / 2f + tp.textSize / 3f, tp)
-                } else if (dX > 0) {
-                    paint.color = "#3D6B3D".toColorInt(); paint.alpha = (alpha * 255).toInt()
-                    c.drawRect(item.left.toFloat(), item.top.toFloat(), item.left + dX, item.bottom.toFloat(), paint)
-                    val tp = Paint().apply { color = Color.WHITE; this.alpha = (alpha * 255).toInt(); textSize = 32f; typeface = Typeface.create("sans-serif", Typeface.NORMAL); isAntiAlias = true }
-                    c.drawText("edit", item.left + 28f, item.top + item.height / 2f + tp.textSize / 3f, tp)
-                }
+                SwipeDecorator.draw(
+                    c, vh.itemView, dX,
+                    leftColor = "#C0705A", leftLabel = "delete",
+                    rightColor = "#3D6B3D", rightLabel = "edit",
+                    cornerRadius = 0f, textSize = 32f, labelInset = 28f
+                )
                 super.onChildDraw(c, rv, vh, dX, dY, state, active)
             }
         }
@@ -790,98 +774,9 @@ class PlantDetailActivity : BaseActivity() {
         }
     }
 
-    private fun setupLightMeter() {
-        sensorManager = getSystemService(SENSOR_SERVICE) as SensorManager
-        lightSensor   = sensorManager?.getDefaultSensor(Sensor.TYPE_LIGHT)
-
-        if (lightSensor == null) {
-            findViewById<View>(R.id.lightMeterCard).visibility = View.GONE
-            return
-        }
-
-        val pref = plant.lightPreference
-        if (!pref.isNullOrBlank()) {
-            findViewById<View>(R.id.rowLightPreference).visibility = View.VISIBLE
-            findViewById<TextView>(R.id.detailLightPreference).text = pref
-        } else {
-            findViewById<View>(R.id.rowLightPreference).visibility = View.GONE
-        }
-
-        val temp = plant.temperaturePreference
-        if (!temp.isNullOrBlank()) {
-            findViewById<View>(R.id.rowTemperaturePreference).visibility = View.VISIBLE
-            findViewById<TextView>(R.id.detailTemperaturePreference).text = temp
-        } else {
-            findViewById<View>(R.id.rowTemperaturePreference).visibility = View.GONE
-        }
-
-        val btnMeasure = findViewById<TextView>(R.id.btnMeasureLight)
-        val btnStop    = findViewById<TextView>(R.id.btnStopLight)
-        val container  = findViewById<View>(R.id.lightReadingContainer)
-        val luxView    = findViewById<TextView>(R.id.lightLuxValue)
-        val labelView  = findViewById<TextView>(R.id.lightLabel)
-        val fcView     = findViewById<TextView>(R.id.lightFcValue)
-        val matchView  = findViewById<TextView>(R.id.lightMatchIndicator)
-
-        btnMeasure.setOnClickListener {
-            container.visibility  = View.VISIBLE
-            btnMeasure.visibility = View.GONE
-            lightSensorListener = object : SensorEventListener {
-                override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {}
-                @SuppressLint("SetTextI18n")
-                override fun onSensorChanged(event: SensorEvent) {
-                    val lux = event.values[0]
-                    luxView.text   = "${lux.toInt()} lux"
-                    fcView.text    = "(${(lux / 10.764f).toInt()} fc)"
-                    labelView.text = luxToLabel(lux)
-                    val p = plant.lightPreference
-                    if (!p.isNullOrBlank()) {
-                        matchView.visibility = View.VISIBLE
-                        if (lightLabelMatches(lux, p)) {
-                            matchView.text = "✅ Matches this plant's preference"
-                            matchView.setTextColor(ContextCompat.getColor(
-                                this@PlantDetailActivity, R.color.status_ok_dot))
-                        } else {
-                            matchView.text = "⚠️ This plant prefers $p"
-                            matchView.setTextColor(ContextCompat.getColor(
-                                this@PlantDetailActivity, R.color.amber))
-                        }
-                    } else matchView.visibility = View.GONE
-                }
-            }
-            sensorManager?.registerListener(
-                lightSensorListener, lightSensor, SensorManager.SENSOR_DELAY_NORMAL)
-        }
-        btnStop.setOnClickListener { stopLightMeter() }
-    }
-
-    private fun stopLightMeter() {
-        lightSensorListener?.let { sensorManager?.unregisterListener(it) }
-        lightSensorListener = null
-        findViewById<View>(R.id.lightReadingContainer).visibility = View.GONE
-        findViewById<TextView>(R.id.btnMeasureLight).visibility   = View.VISIBLE
-    }
-
-    private fun luxToLabel(lux: Float) = when {
-        lux < 500   -> "Low light"
-        lux < 2500  -> "Medium light"
-        lux < 10000 -> "Bright indirect light"
-        else        -> "Direct sunlight"
-    }
-
-    private fun lightLabelMatches(lux: Float, preference: String): Boolean {
-        val p = preference.lowercase()
-        return when {
-            lux < 500   -> p.contains("low")
-            lux < 2500  -> p.contains("medium") || p.contains("moderate")
-            lux < 10000 -> p.contains("bright") || p.contains("indirect")
-            else        -> p.contains("direct") || p.contains("full sun")
-        }
-    }
-
     override fun onPause() {
         super.onPause()
-        stopLightMeter()
+        lightMeter.stop()
     }
 
     private fun setupGrowthPhotos() {
